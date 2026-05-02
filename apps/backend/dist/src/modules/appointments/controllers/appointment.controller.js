@@ -28,7 +28,14 @@ let AppointmentController = class AppointmentController {
         });
     }
     async findAll(req) {
-        return this.appointmentService.findAllForUser(req.user.userId, req.user.role);
+        console.log(`[AppointmentController] findAll requested by user: ${req.user.userId}, role: ${req.user.role}`);
+        try {
+            return await this.appointmentService.findAllForUser(req.user.userId, req.user.role);
+        }
+        catch (error) {
+            console.error('[AppointmentController] Error in findAll:', error);
+            throw error;
+        }
     }
     async findAllProfessionals() {
         return this.appointmentService.findAllProfessionals();

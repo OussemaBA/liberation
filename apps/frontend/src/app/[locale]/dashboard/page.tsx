@@ -209,7 +209,7 @@ export default function DashboardPage() {
   }
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-brand-teal text-white">
+    <div className="flex flex-col h-full bg-brand-teal text-white overflow-y-auto">
       <div className="p-8 lg:p-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-brand-mint rounded-xl flex items-center justify-center shadow-lg shadow-black/20 shrink-0">
@@ -253,9 +253,9 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col xl:flex-row overflow-x-hidden">
+    <div className="h-screen bg-slate-50 flex flex-col xl:flex-row overflow-hidden">
       {/* Desktop Sidebar */}
-      <aside className="w-80 bg-brand-teal hidden xl:flex flex-col sticky top-0 h-screen shrink-0">
+      <aside className="w-80 bg-brand-teal hidden xl:flex flex-col shrink-0">
         <SidebarContent />
       </aside>
 
@@ -263,14 +263,14 @@ export default function DashboardPage() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <Dialog open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <DialogContent className="fixed inset-y-0 start-0 w-[300px] h-full p-0 border-none rounded-none shadow-2xl z-[70] bg-brand-teal">
+            <DialogContent className="fixed inset-y-0 start-0 w-[300px] h-full p-0 border-none rounded-none shadow-2xl z-[70] bg-brand-teal translate-x-0 translate-y-0">
               <SidebarContent />
             </DialogContent>
           </Dialog>
         )}
       </AnimatePresence>
 
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col overflow-y-auto overflow-x-hidden">
         {/* Meticulous Responsive Header */}
         <header className="h-20 sm:h-24 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 sm:px-6 lg:px-10 flex items-center justify-between sticky top-0 z-40">
           <div className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">

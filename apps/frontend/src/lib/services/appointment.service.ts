@@ -2,10 +2,16 @@ import { Appointment } from '@/types';
 
 export class AppointmentService {
   static async findAll(token: string): Promise<Appointment[]> {
+    console.log('[AppointmentService] Fetching all appointments...');
     const response = await fetch('/api/appointments', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    if (!response.ok) throw new Error('Failed to fetch appointments');
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[AppointmentService] Fetch failed with status ${response.status}:`, errorText);
+      throw new Error(`Failed to fetch appointments: ${response.status}`);
+    }
     
     const text = await response.text();
     if (!text) return [];

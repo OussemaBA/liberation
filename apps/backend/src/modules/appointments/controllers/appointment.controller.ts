@@ -17,7 +17,13 @@ export class AppointmentController {
 
   @Get()
   async findAll(@Request() req: any) {
-    return this.appointmentService.findAllForUser(req.user.userId, req.user.role);
+    console.log(`[AppointmentController] findAll requested by user: ${req.user.userId}, role: ${req.user.role}`);
+    try {
+      return await this.appointmentService.findAllForUser(req.user.userId, req.user.role);
+    } catch (error) {
+      console.error('[AppointmentController] Error in findAll:', error);
+      throw error;
+    }
   }
 
   @Get('professionals')
