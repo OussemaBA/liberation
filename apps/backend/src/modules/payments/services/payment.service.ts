@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IPaymentGateway } from '../interfaces/payment-gateway.interface';
+import type { IPaymentGateway } from '../interfaces/payment-gateway.interface';
 import { PaymentRepository } from '../repositories/payment.repository';
 import { TransactionStatus } from '@prisma/client';
 

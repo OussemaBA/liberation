@@ -12,12 +12,14 @@ const core_1 = require("@nestjs/core");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const prisma_module_1 = require("./prisma/prisma.module");
+const global_exception_filter_1 = require("./common/filters/global-exception.filter");
 const auth_module_1 = require("./modules/auth/auth.module");
 const users_module_1 = require("./modules/users/users.module");
 const appointments_module_1 = require("./modules/appointments/appointments.module");
 const subscriptions_module_1 = require("./modules/subscriptions/subscriptions.module");
 const onboarding_module_1 = require("./modules/onboarding/onboarding.module");
 const payments_module_1 = require("./modules/payments/payments.module");
+const video_module_1 = require("./modules/video/video.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,13 +33,14 @@ exports.AppModule = AppModule = __decorate([
             subscriptions_module_1.SubscriptionsModule,
             onboarding_module_1.OnboardingModule,
             payments_module_1.PaymentsModule,
+            video_module_1.VideoModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [
             app_service_1.AppService,
             {
                 provide: core_1.APP_FILTER,
-                useClass: GlobalExceptionFilter,
+                useClass: global_exception_filter_1.GlobalExceptionFilter,
             },
         ],
     })

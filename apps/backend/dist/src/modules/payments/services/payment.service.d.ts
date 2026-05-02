@@ -1,4 +1,4 @@
-import { IPaymentGateway } from '../interfaces/payment-gateway.interface';
+import type { IPaymentGateway } from '../interfaces/payment-gateway.interface';
 import { PaymentRepository } from '../repositories/payment.repository';
 export declare class PaymentService {
     private readonly gateway;
