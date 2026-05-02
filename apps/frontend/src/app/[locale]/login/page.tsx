@@ -1,13 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
   const { locale } = useParams();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const { login } = useAuth();
   
   const [formData, setFormData] = useState({
@@ -71,7 +73,9 @@ export default function LoginPage() {
       const data = await response.json();
       login(data.access_token, data.user);
       
-      if (data.user.role === 'ADMIN') {
+      if (redirect) {
+        router.push(`/${locale}/${redirect}`);
+      } else if (data.user.role === 'ADMIN') {
         router.push(`/${locale}/admin`);
       } else if (data.user.role === 'PROFESSIONAL') {
         router.push(`/${locale}/dashboard/pro`);

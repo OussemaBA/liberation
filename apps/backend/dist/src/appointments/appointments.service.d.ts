@@ -12,11 +12,11 @@ export declare class AppointmentsService {
         notes?: string;
     }): Promise<{
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -25,29 +25,29 @@ export declare class AppointmentsService {
     findAllForUser(userId: string, role: string): Promise<({
         professional: {
             user: {
+                id: string;
                 email: string;
                 password: string;
                 firstName: string | null;
                 lastName: string | null;
                 role: import("@prisma/client").$Enums.Role;
-                id: string;
                 createdAt: Date;
                 updatedAt: Date;
             };
         } & {
-            specialization: string | null;
             id: string;
+            specialization: string | null;
             userId: string;
             type: import("@prisma/client").$Enums.ProfessionalType;
             bio: string | null;
         };
     } & {
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -55,12 +55,12 @@ export declare class AppointmentsService {
     })[] | ({
         patient: {
             user: {
+                id: string;
                 email: string;
                 password: string;
                 firstName: string | null;
                 lastName: string | null;
                 role: import("@prisma/client").$Enums.Role;
-                id: string;
                 createdAt: Date;
                 updatedAt: Date;
             };
@@ -77,11 +77,11 @@ export declare class AppointmentsService {
         };
     } & {
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -94,8 +94,8 @@ export declare class AppointmentsService {
             lastName: string | null;
         };
     } & {
-        specialization: string | null;
         id: string;
+        specialization: string | null;
         userId: string;
         type: import("@prisma/client").$Enums.ProfessionalType;
         bio: string | null;

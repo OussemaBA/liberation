@@ -27,35 +27,27 @@ let SubscriptionsService = class SubscriptionsService {
         const pack = await this.prisma.pack.findUnique({ where: { id: packId } });
         if (!pack)
             throw new common_1.NotFoundException('Pack not found');
-        const patient = await this.prisma.patientProfile.findUnique({
-            where: { userId },
-        });
-        if (!patient)
-            throw new common_1.NotFoundException('Patient profile not found');
-        const expiresAt = new Date();
-        expiresAt.setMonth(expiresAt.getMonth() + pack.duration);
+        const endDate = new Date();
+        endDate.setMonth(endDate.getMonth() + pack.duration);
         return this.prisma.subscription.create({
             data: {
-                patientId: patient.id,
+                userId: userId,
                 packId: pack.id,
                 status: client_1.SubscriptionStatus.ACTIVE,
-                expiresAt,
+                startDate: new Date(),
+                endDate: endDate,
+                amount: pack.price,
             },
         });
     }
     async getCurrentSubscription(userId) {
-        const patient = await this.prisma.patientProfile.findUnique({
-            where: { userId },
-        });
-        if (!patient)
-            return null;
         return this.prisma.subscription.findFirst({
             where: {
-                patientId: patient.id,
+                userId: userId,
                 status: client_1.SubscriptionStatus.ACTIVE,
             },
             include: { pack: true },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { startDate: 'desc' },
         });
     }
 };

@@ -11,20 +11,28 @@ export declare class SubscriptionsController {
     }[]>;
     subscribe(req: any, packId: string): Promise<{
         id: string;
+        userId: string;
+        status: import("@prisma/client").$Enums.SubscriptionStatus;
         startDate: Date;
         endDate: Date;
-        status: import("@prisma/client").$Enums.SubscriptionStatus;
         amount: number;
-        userId: string;
         packId: string;
     }>;
-    getCurrent(req: any): Promise<{
+    getCurrent(req: any): Promise<({
+        pack: {
+            id: string;
+            name: string;
+            duration: number;
+            price: number;
+            description: string | null;
+        };
+    } & {
         id: string;
+        userId: string;
+        status: import("@prisma/client").$Enums.SubscriptionStatus;
         startDate: Date;
         endDate: Date;
-        status: import("@prisma/client").$Enums.SubscriptionStatus;
         amount: number;
-        userId: string;
         packId: string;
-    } | null>;
+    }) | null>;
 }

@@ -16,38 +16,30 @@ export class SubscriptionsService {
     const pack = await this.prisma.pack.findUnique({ where: { id: packId } });
     if (!pack) throw new NotFoundException('Pack not found');
 
-    const patient = await this.prisma.patientProfile.findUnique({
-      where: { userId },
-    });
-    if (!patient) throw new NotFoundException('Patient profile not found');
-
-    // Calculate expiry date
-    const expiresAt = new Date();
-    expiresAt.setMonth(expiresAt.getMonth() + pack.duration);
+    // Calculate end date
+    const endDate = new Date();
+    endDate.setMonth(endDate.getMonth() + pack.duration);
 
     return this.prisma.subscription.create({
       data: {
-        patientId: patient.id,
+        userId: userId,
         packId: pack.id,
         status: SubscriptionStatus.ACTIVE,
-        expiresAt,
+        startDate: new Date(),
+        endDate: endDate,
+        amount: pack.price,
       },
     });
   }
 
   async getCurrentSubscription(userId: string) {
-    const patient = await this.prisma.patientProfile.findUnique({
-      where: { userId },
-    });
-    if (!patient) return null;
-
     return this.prisma.subscription.findFirst({
       where: {
-        patientId: patient.id,
+        userId: userId,
         status: SubscriptionStatus.ACTIVE,
       },
       include: { pack: true },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { startDate: 'desc' },
     });
   }
 }

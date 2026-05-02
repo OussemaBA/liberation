@@ -4,11 +4,11 @@ export declare class AppointmentsController {
     constructor(appointmentsService: AppointmentsService);
     create(req: any, body: any): Promise<{
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -17,29 +17,29 @@ export declare class AppointmentsController {
     findAll(req: any): Promise<({
         professional: {
             user: {
+                id: string;
                 email: string;
                 password: string;
                 firstName: string | null;
                 lastName: string | null;
                 role: import("@prisma/client").$Enums.Role;
-                id: string;
                 createdAt: Date;
                 updatedAt: Date;
             };
         } & {
-            specialization: string | null;
             id: string;
+            specialization: string | null;
             userId: string;
             type: import("@prisma/client").$Enums.ProfessionalType;
             bio: string | null;
         };
     } & {
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -47,12 +47,12 @@ export declare class AppointmentsController {
     })[] | ({
         patient: {
             user: {
+                id: string;
                 email: string;
                 password: string;
                 firstName: string | null;
                 lastName: string | null;
                 role: import("@prisma/client").$Enums.Role;
-                id: string;
                 createdAt: Date;
                 updatedAt: Date;
             };
@@ -69,11 +69,11 @@ export declare class AppointmentsController {
         };
     } & {
         id: string;
+        duration: number;
         createdAt: Date;
         updatedAt: Date;
         type: import("@prisma/client").$Enums.AppointmentType;
         dateTime: Date;
-        duration: number;
         status: import("@prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
         patientId: string;
@@ -86,8 +86,8 @@ export declare class AppointmentsController {
             lastName: string | null;
         };
     } & {
-        specialization: string | null;
         id: string;
+        specialization: string | null;
         userId: string;
         type: import("@prisma/client").$Enums.ProfessionalType;
         bio: string | null;

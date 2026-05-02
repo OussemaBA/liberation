@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function PricingPage() {
   const { locale } = useParams();
   const router = useRouter();
+  const { token, user } = useAuth();
   const [packs, setPacks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState<string | null>(null);
@@ -26,6 +28,7 @@ export default function PricingPage() {
         'Clinical support network',
       ],
       simulatedNotice: 'Note: This is a simulated payment for development.',
+      loginRequired: 'Please login to subscribe to a plan.',
     },
     fr: {
       title: 'Choisissez votre pack',
@@ -41,6 +44,7 @@ export default function PricingPage() {
         'Réseau de soutien clinique',
       ],
       simulatedNotice: 'Note: Ceci est un paiement simulé pour le développement.',
+      loginRequired: 'Veuillez vous connecter pour souscrire à un plan.',
     },
     ar: {
       title: 'اختر باقتك',
@@ -56,19 +60,25 @@ export default function PricingPage() {
         'شبكة دعم عيادي متكاملة',
       ],
       simulatedNotice: 'ملاحظة: هذه عملية دفع تجريبية للتطوير.',
+      loginRequired: 'يرجى تسجيل الدخول للاشتراك في باقة.',
     },
   }[locale as 'en' | 'fr' | 'ar'] || t.fr;
 
   useEffect(() => {
     const fetchPacks = async () => {
       try {
+        console.log('Fetching packs from /api/subscriptions/packs...');
         const res = await fetch('/api/subscriptions/packs');
+        console.log('Fetch response status:', res.status);
         if (res.ok) {
           const data = await res.json();
+          console.log('Packs fetched successfully:', data.length);
           setPacks(data);
+        } else {
+          console.error('Failed to fetch packs, status:', res.status);
         }
       } catch (err) {
-        console.error('Failed to fetch packs:', err);
+        console.error('Fetch error:', err);
       } finally {
         setLoading(false);
       }
@@ -77,15 +87,19 @@ export default function PricingPage() {
   }, []);
 
   const handleSubscribe = async (packId: string) => {
+    if (!token) {
+      alert(t.loginRequired);
+      router.push(`/${locale}/login?redirect=pricing`);
+      return;
+    }
+
     setIsSubmitting(packId);
     try {
-      // Get token from cookie (or AuthProvider if exposed)
-      // For this simulated flow, we assume the user is logged in
       const res = await fetch('/api/subscriptions/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${document.cookie.split('; ').find(row => row.startsWith('access_token='))?.split('=')[1]}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ packId }),
       });
@@ -94,10 +108,13 @@ export default function PricingPage() {
         // Success! Redirect to dashboard
         router.push(`/${locale}/dashboard`);
       } else {
-        alert('Payment simulation failed. Please ensure you are logged in.');
+        const errorData = await res.json().catch(() => ({}));
+        console.error('Subscription failed:', errorData);
+        alert('Payment simulation failed. Please try again or ensure you are logged in.');
       }
     } catch (err) {
       console.error(err);
+      alert('An error occurred. Please check your connection.');
     } finally {
       setIsSubmitting(null);
     }
