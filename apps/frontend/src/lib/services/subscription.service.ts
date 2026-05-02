@@ -11,8 +11,19 @@ export class SubscriptionService {
     const response = await fetch('/api/subscriptions/current', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
+    
     if (!response.ok) throw new Error('Failed to fetch current subscription');
-    return response.json();
+    if (response.status === 204) return null;
+
+    const text = await response.text();
+    if (!text || text === 'null') return null;
+    
+    try {
+      return JSON.parse(text);
+    } catch (err) {
+      console.error('Failed to parse subscription JSON:', err);
+      return null;
+    }
   }
 
   static async subscribe(token: string, packId: string): Promise<Subscription> {

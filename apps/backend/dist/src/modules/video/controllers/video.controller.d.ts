@@ -5,7 +5,7 @@ export declare class VideoController {
     getToken(req: any, body: {
         appointmentId: string;
     }): Promise<{
-        token: Promise<string>;
+        token: string;
         serverUrl: string | undefined;
     }>;
 }

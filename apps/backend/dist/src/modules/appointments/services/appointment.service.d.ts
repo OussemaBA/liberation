@@ -44,9 +44,9 @@ export declare class AppointmentService {
         };
     } & {
         id: string;
-        specialization: string | null;
         userId: string;
         type: import("@prisma/client").$Enums.ProfessionalType;
+        specialization: string | null;
         bio: string | null;
     })[]>;
 }

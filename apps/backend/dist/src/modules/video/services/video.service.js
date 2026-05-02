@@ -41,10 +41,15 @@ let VideoService = class VideoService {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
         });
-        const identity = `${user?.firstName || 'User'}_${user?.role}`;
+        const identity = userId;
+        if (!this.apiKey || !this.apiSecret) {
+            console.error('LIVEKIT_API_KEY or LIVEKIT_API_SECRET is missing');
+            throw new Error('Video configuration error');
+        }
         const at = new livekit_server_sdk_1.AccessToken(this.apiKey, this.apiSecret, {
             identity: identity,
             name: `${user?.firstName} ${user?.lastName}`,
+            ttl: '2h',
         });
         at.addGrant({
             roomJoin: true,
@@ -52,8 +57,11 @@ let VideoService = class VideoService {
             canPublish: true,
             canSubscribe: true,
         });
+        const token = await at.toJwt();
+        console.log(`Token generated for user ${userId} in room ${appointmentId}`);
+        console.log(`API Key Length: ${this.apiKey.length}, API Secret Length: ${this.apiSecret.length}`);
         return {
-            token: at.toJwt(),
+            token,
             serverUrl: process.env.LIVEKIT_URL,
         };
     }

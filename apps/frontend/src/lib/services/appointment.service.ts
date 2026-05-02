@@ -6,7 +6,10 @@ export class AppointmentService {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!response.ok) throw new Error('Failed to fetch appointments');
-    return response.json();
+    
+    const text = await response.text();
+    if (!text) return [];
+    return JSON.parse(text);
   }
 
   static async create(token: string, data: { professionalId: string; dateTime: string }): Promise<Appointment> {
@@ -27,6 +30,9 @@ export class AppointmentService {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!response.ok) throw new Error('Failed to fetch professionals');
-    return response.json();
+    
+    const text = await response.text();
+    if (!text) return [];
+    return JSON.parse(text);
   }
 }

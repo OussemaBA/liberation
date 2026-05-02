@@ -11,16 +11,16 @@ export declare class OnboardingService {
     }): Promise<{
         id: string;
         createdAt: Date;
-        data: import("@prisma/client/runtime/client").JsonValue;
         patientId: string;
+        data: import("@prisma/client/runtime/client").JsonValue;
         testType: string;
         score: number | null;
     }>;
     getPatientAssessments(userId: string): Promise<{
         id: string;
         createdAt: Date;
-        data: import("@prisma/client/runtime/client").JsonValue;
         patientId: string;
+        data: import("@prisma/client/runtime/client").JsonValue;
         testType: string;
         score: number | null;
     }[]>;

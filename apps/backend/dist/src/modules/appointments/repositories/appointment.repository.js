@@ -18,10 +18,12 @@ let AppointmentRepository = class AppointmentRepository extends base_prisma_repo
         super(prisma, 'appointment');
     }
     async findByUserId(userId, role) {
+        console.log(`[AppointmentRepository] Finding appointments for userId: ${userId}, role: ${role}`);
         if (role === 'PATIENT') {
             const patient = await this.prisma.patientProfile.findUnique({
                 where: { userId },
             });
+            console.log(`[AppointmentRepository] Found patient profile: ${JSON.stringify(patient)}`);
             if (!patient)
                 return [];
             return this.prisma.appointment.findMany({
@@ -34,6 +36,7 @@ let AppointmentRepository = class AppointmentRepository extends base_prisma_repo
             const professional = await this.prisma.professionalProfile.findUnique({
                 where: { userId },
             });
+            console.log(`[AppointmentRepository] Found professional profile: ${JSON.stringify(professional)}`);
             if (!professional)
                 return [];
             return this.prisma.appointment.findMany({

@@ -27,6 +27,8 @@ export class BillingService {
       throw new Error('Payment verification failed');
     }
 
-    return response.json();
+    const text = await response.text();
+    if (!text || text === 'null') return null;
+    return JSON.parse(text);
   }
 }

@@ -34,9 +34,9 @@ export declare class AppointmentController {
         };
     } & {
         id: string;
-        specialization: string | null;
         userId: string;
         type: import("@prisma/client").$Enums.ProfessionalType;
+        specialization: string | null;
         bio: string | null;
     })[]>;
 }

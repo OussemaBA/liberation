@@ -5,14 +5,14 @@ export declare class PaymentController {
     createSession(req: any, body: any): Promise<import("../interfaces/payment-gateway.interface").PaymentSessionResponse>;
     verify(reference: string): Promise<{
         id: string;
-        userId: string;
-        subscriptionId: string | null;
-        amount: number;
-        currency: string;
-        status: import("@prisma/client").$Enums.TransactionStatus;
-        provider: string;
-        providerReference: string | null;
         createdAt: Date;
         updatedAt: Date;
+        userId: string;
+        status: import("@prisma/client").$Enums.TransactionStatus;
+        amount: number;
+        subscriptionId: string | null;
+        currency: string;
+        provider: string;
+        providerReference: string | null;
     } | null>;
 }

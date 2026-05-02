@@ -5,7 +5,7 @@ export declare class VideoService {
     private readonly apiSecret;
     constructor(prisma: PrismaService);
     generateToken(userId: string, appointmentId: string): Promise<{
-        token: Promise<string>;
+        token: string;
         serverUrl: string | undefined;
     }>;
 }

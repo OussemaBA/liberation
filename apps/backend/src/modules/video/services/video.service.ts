@@ -38,12 +38,19 @@ export class VideoService {
       where: { id: userId },
     });
 
-    const identity = `${user?.firstName || 'User'}_${user?.role}`;
+    // Use userId as identity to avoid issues with special characters/spaces
+    const identity = userId;
     
     // 3. Create LiveKit Access Token
+    if (!this.apiKey || !this.apiSecret) {
+      console.error('LIVEKIT_API_KEY or LIVEKIT_API_SECRET is missing');
+      throw new Error('Video configuration error');
+    }
+
     const at = new AccessToken(this.apiKey, this.apiSecret, {
       identity: identity,
       name: `${user?.firstName} ${user?.lastName}`,
+      ttl: '2h', // 2 hours
     });
 
     at.addGrant({
@@ -53,8 +60,13 @@ export class VideoService {
       canSubscribe: true,
     });
 
+    const token = await at.toJwt();
+    
+    console.log(`Token generated for user ${userId} in room ${appointmentId}`);
+    console.log(`API Key Length: ${this.apiKey.length}, API Secret Length: ${this.apiSecret.length}`);
+
     return {
-      token: at.toJwt(),
+      token,
       serverUrl: process.env.LIVEKIT_URL,
     };
   }

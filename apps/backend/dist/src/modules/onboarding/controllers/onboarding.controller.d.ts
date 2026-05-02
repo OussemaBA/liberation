@@ -5,16 +5,16 @@ export declare class OnboardingController {
     submit(req: any, body: any): Promise<{
         id: string;
         createdAt: Date;
-        data: import("@prisma/client/runtime/client").JsonValue;
         patientId: string;
+        data: import("@prisma/client/runtime/client").JsonValue;
         testType: string;
         score: number | null;
     }>;
     getHistory(req: any): Promise<{
         id: string;
         createdAt: Date;
-        data: import("@prisma/client/runtime/client").JsonValue;
         patientId: string;
+        data: import("@prisma/client/runtime/client").JsonValue;
         testType: string;
         score: number | null;
     }[]>;
