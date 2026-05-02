@@ -39,5 +39,57 @@
       "submit": "Confirm Session",
       "success": "Session Scheduled Successfully"
     }
+  },
+  "Home": {
+    "hero": {
+      "tag": "The Medical Gold Standard",
+      "title": "Science-Backed Smoking Cessation",
+      "highlight": "Reclaim Your Health",
+      "subtitle": "Join thousands of successful quitters on the only platform combining clinical protocol with continuous psychological support.",
+      "cta": "Start Your Protocol",
+      "secondary": "View Clinical Results"
+    },
+    "stats": {
+      "trustedBy": "Trusted by 2,500+ users across North Africa",
+      "quitters": "Successful Quitters",
+      "experts": "Medical Experts",
+      "rate": "Clinical Success Rate"
+    },
+    "features": {
+      "sectionTitle": "Built for Clinical Results",
+      "sectionSubtitle": "We've digitized the most effective clinical protocols into an intuitive experience.",
+      "personalized": {
+        "title": "Personalized Care",
+        "desc": "Protocols tailored to your biological profile and smoking history."
+      },
+      "guidance": {
+        "title": "Expert Guidance",
+        "desc": "Direct access to certified doctors and clinical psychologists."
+      },
+      "support": {
+        "title": "Continuous Support",
+        "desc": "A digital companion that tracks health improvements in real-time."
+      },
+      "learnMore": "Learn more"
+    },
+    "cta": {
+      "title": "Ready to reclaim your freedom?",
+      "subtitle": "Start your personalized protocol today with our clinical team.",
+      "button": "Get Started Now"
+    },
+    "footer": {
+      "desc": "The premium medical platform for smoking cessation in the MENA region.",
+      "platform": "Platform",
+      "company": "Company",
+      "about": "About Us",
+      "privacy": "Privacy Policy",
+      "contact": "Contact",
+      "pricing": "Pricing",
+      "science": "Science",
+      "protocol": "Protocol",
+      "rights": "© 2026 Ta7aror. All rights clinical.",
+      "terms": "Terms",
+      "cookies": "Cookies"
+    }
   }
 }

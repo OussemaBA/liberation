@@ -39,5 +39,57 @@
       "submit": "Confirmer la séance",
       "success": "Séance planifiée avec succès"
     }
+  },
+  "Home": {
+    "hero": {
+      "tag": "Le Standard Médical",
+      "title": "Arrêtez de Fumer par la Science",
+      "highlight": "Reprenez votre Santé",
+      "subtitle": "Rejoignez des milliers de personnes sur la seule plateforme combinant protocole clinique et soutien psychologique continu.",
+      "cta": "Démarrer le Protocole",
+      "secondary": "Voir les Résultats"
+    },
+    "stats": {
+      "trustedBy": "Approuvé par 2 500+ utilisateurs en Afrique du Nord",
+      "quitters": "Sevrages Réussis",
+      "experts": "Experts Médicaux",
+      "rate": "Taux de Réussite"
+    },
+    "features": {
+      "sectionTitle": "Conçu pour des Résultats Cliniques",
+      "sectionSubtitle": "Nous avons numérisé les protocoles cliniques les plus efficaces en une expérience intuitive.",
+      "personalized": {
+        "title": "Suivi Personnalisé",
+        "desc": "Des protocoles adaptés à votre profil biologique et historique."
+      },
+      "guidance": {
+        "title": "Guidage d'Experts",
+        "desc": "Accès direct à des médecins et psychologues cliniciens."
+      },
+      "support": {
+        "title": "Soutien Continu",
+        "desc": "Un compagnon digital qui suit vos progrès en temps réel."
+      },
+      "learnMore": "En savoir plus"
+    },
+    "cta": {
+      "title": "Prêt à retrouver votre liberté ?",
+      "subtitle": "Commencez votre protocole personnalisé dès aujourd'hui avec notre équipe clinique.",
+      "button": "Commencer Maintenant"
+    },
+    "footer": {
+      "desc": "La plateforme médicale premium pour l'arrêt du tabac dans la région MENA.",
+      "platform": "Plateforme",
+      "company": "Entreprise",
+      "about": "À Propos",
+      "privacy": "Confidentialité",
+      "contact": "Contact",
+      "pricing": "Tarification",
+      "science": "Science",
+      "protocol": "Protocole",
+      "rights": "© 2026 Ta7aror. Tous droits cliniques réservés.",
+      "terms": "Conditions",
+      "cookies": "Cookies"
+    }
   }
 }
