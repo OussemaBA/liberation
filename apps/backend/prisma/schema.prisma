@@ -54,6 +54,7 @@ model User {
   professionalProfile ProfessionalProfile?
   subscriptions       Subscription[]
   donations           Donation[]
+  transactions        Transaction[]
 
   @@map("users")
 }
@@ -118,8 +119,33 @@ model Subscription {
   endDate   DateTime
   status    SubscriptionStatus @default(PENDING)
   amount    Float
+  transactions Transaction[]
 
   @@map("subscriptions")
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model Transaction {
+  id                 String            @id @default(uuid())
+  userId             String
+  user               User              @relation(fields: [userId], references: [id])
+  subscriptionId     String?
+  subscription       Subscription?     @relation(fields: [subscriptionId], references: [id])
+  amount             Float
+  currency           String            @default("TND")
+  status             TransactionStatus @default(PENDING)
+  provider           String            // e.g., "STRIPE", "FLOUCI", "SIMULATOR"
+  providerReference  String?           @unique
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@map("transactions")
 }
 
 model Donation {

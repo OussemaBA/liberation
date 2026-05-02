@@ -9,6 +9,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { OnboardingModule } from './modules/onboarding/onboarding.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { SubscriptionsModule } from './modules/subscriptions/subscriptions.modul
     UsersModule,
     AppointmentsModule,
     SubscriptionsModule,
+    OnboardingModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [

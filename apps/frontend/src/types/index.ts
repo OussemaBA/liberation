@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+/**
+ * IDENTITY & ACCESS DOMAIN
+ */
+
 export const UserRoleSchema = z.enum(['ADMIN', 'PROFESSIONAL', 'PATIENT', 'AMBASSADOR']);
 export type UserRole = z.infer<typeof UserRoleSchema>;
 
@@ -30,6 +34,45 @@ export const RegisterDtoSchema = z.object({
 
 export type RegisterDto = z.infer<typeof RegisterDtoSchema>;
 
+/**
+ * CLINICAL ONBOARDING DOMAIN
+ */
+
+export const AssessmentTypeSchema = z.enum(['FAGERSTROM', 'MOTIVATION', 'PROFILE', 'INTAKE']);
+export type AssessmentType = z.infer<typeof AssessmentTypeSchema>;
+
+export const AssessmentQuestionSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  options: z.array(z.object({
+    label: z.string(),
+    value: z.any(),
+    score: z.number().optional(),
+  })),
+});
+
+export type AssessmentQuestion = z.infer<typeof AssessmentQuestionSchema>;
+
+export const AssessmentSubmissionSchema = z.object({
+  assessmentType: AssessmentTypeSchema,
+  answers: z.record(z.string(), z.any()), // key: questionId, value: selectedValue
+});
+
+export type AssessmentSubmission = z.infer<typeof AssessmentSubmissionSchema>;
+
+export interface AssessmentResult {
+  id: string;
+  patientId: string;
+  type: AssessmentType;
+  score: number;
+  data: any;
+  createdAt: string;
+}
+
+/**
+ * CLINICAL SESSIONS DOMAIN
+ */
+
 export interface Appointment {
   id: string;
   patientId: string;
@@ -41,12 +84,22 @@ export interface Appointment {
   professional?: {
     user: User;
   };
+  patient?: {
+    user: User;
+  };
 }
+
+/**
+ * MONETIZATION & BILLING DOMAIN
+ */
+
+export const PaymentStatusSchema = z.enum(['PENDING', 'COMPLETED', 'FAILED', 'REFUNDED']);
+export type PaymentStatus = z.infer<typeof PaymentStatusSchema>;
 
 export interface Pack {
   id: string;
   name: string;
-  duration: number;
+  duration: number; // in months
   price: number;
   description?: string;
 }
@@ -60,4 +113,21 @@ export interface Subscription {
   status: string;
   amount: number;
   pack?: Pack;
+}
+
+export interface Transaction {
+  id: string;
+  userId: string;
+  subscriptionId?: string;
+  amount: number;
+  currency: string;
+  status: PaymentStatus;
+  provider: string; // 'STRIPE', 'FLOUCI', 'SIMULATOR'
+  providerReference?: string;
+  createdAt: string;
+}
+
+export interface CheckoutSession {
+  id: string;
+  url: string;
 }
