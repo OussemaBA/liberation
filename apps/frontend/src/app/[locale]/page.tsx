@@ -175,17 +175,17 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-6xl md:text-8xl font-black text-brand-teal leading-[1.05] tracking-tight mb-8"
+              className="text-4xl sm:text-6xl lg:text-8xl font-black text-brand-teal leading-[1.1] sm:leading-[1.05] tracking-tight mb-8"
             >
-              {t.title} <br />
-              <span className="text-brand-mint decoration-brand-gold/30 underline underline-offset-8 decoration-8">{t.highlight}</span>
+              {t.title} <br className="hidden sm:block" />
+              <span className="text-brand-mint decoration-brand-gold/30 underline underline-offset-8 decoration-4 sm:decoration-8">{t.highlight}</span>
             </motion.h1>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12"
+              className="text-lg sm:text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12"
             >
               {t.subtitle}
             </motion.p>
@@ -194,13 +194,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-6"
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6"
             >
-              <Button size="lg" className="bg-brand-mint hover:bg-brand-mint/90 shadow-2xl shadow-brand-mint/20 group">
+              <Button size="lg" className="bg-brand-mint hover:bg-brand-mint/90 shadow-2xl shadow-brand-mint/20 group w-full sm:w-auto">
                 {t.cta}
                 <ArrowRight className="ms-2 h-5 w-5 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
               </Button>
-              <Button size="lg" variant="outline" className="border-2 border-slate-200 text-slate-600 bg-white hover:bg-slate-50">
+              <Button size="lg" variant="outline" className="border-2 border-slate-200 text-slate-600 bg-white hover:bg-slate-50 w-full sm:w-auto">
                 {t.secondary}
               </Button>
             </motion.div>
@@ -226,21 +226,24 @@ export default function Home() {
       </section>
 
       {/* Stats Board */}
-      <section className="bg-brand-teal py-24 relative overflow-hidden">
+      <section className="bg-brand-teal py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(27,135,112,0.1),transparent_50%)]" />
         <div className="layout-grid relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
             {t.stats.map((stat, i) => (
               <motion.div 
                 key={i}
                 whileHover={{ y: -5 }}
-                className="flex flex-col items-center text-center p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all"
+                className={cn(
+                  "flex flex-col items-center text-center p-6 sm:p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all",
+                  i === 2 && "col-span-2 md:col-span-1"
+                )}
               >
-                <div className="w-12 h-12 rounded-2xl bg-brand-mint/20 flex items-center justify-center mb-6">
-                  <stat.icon className="h-6 w-6 text-brand-mint" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-mint/20 flex items-center justify-center mb-4 sm:mb-6">
+                  <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-brand-mint" />
                 </div>
-                <span className="text-5xl font-black text-white mb-2">{stat.value}</span>
-                <span className="text-brand-mint font-bold uppercase tracking-widest text-[10px]">{stat.label}</span>
+                <span className="text-3xl sm:text-5xl font-black text-white mb-2">{stat.value}</span>
+                <span className="text-brand-mint font-bold uppercase tracking-widest text-[8px] sm:text-[10px]">{stat.label}</span>
               </motion.div>
             ))}
           </div>
@@ -248,24 +251,24 @@ export default function Home() {
       </section>
 
       {/* Feature Grid */}
-      <section className="py-32 bg-slate-50/50">
+      <section className="py-20 sm:py-32 bg-slate-50/50">
         <div className="layout-grid">
-          <div className="text-center max-w-3xl mx-auto mb-24">
-            <h2 className="text-4xl md:text-5xl font-black text-brand-teal mb-6">Built for Clinical Results</h2>
-            <p className="text-lg text-slate-500 font-medium leading-relaxed">
+          <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-24">
+            <h2 className="text-3xl sm:text-5xl font-black text-brand-teal mb-6">Built for Clinical Results</h2>
+            <p className="text-base sm:text-lg text-slate-500 font-medium leading-relaxed">
               We've digitized the most effective clinical protocols into an intuitive experience.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {t.features.map((feature, i) => (
               <Card key={i} className="group border-none shadow-none bg-white hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 p-2">
-                <CardContent className="p-8">
-                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-8 group-hover:bg-brand-mint transition-colors duration-500">
-                    <feature.icon className="h-7 w-7 text-brand-teal group-hover:text-white transition-colors duration-500" />
+                <CardContent className="p-6 sm:p-8">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 sm:mb-8 group-hover:bg-brand-mint transition-colors duration-500">
+                    <feature.icon className="h-6 w-6 sm:h-7 sm:w-7 text-brand-teal group-hover:text-white transition-colors duration-500" />
                   </div>
-                  <h3 className="text-2xl font-black text-brand-teal mb-4">{feature.title}</h3>
-                  <p className="text-slate-500 font-medium leading-relaxed mb-6">{feature.desc}</p>
+                  <h3 className="text-xl sm:text-2xl font-black text-brand-teal mb-4">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-slate-500 font-medium leading-relaxed mb-6">{feature.desc}</p>
                   <div className="flex items-center text-brand-mint font-bold text-sm">
                     Learn more 
                     <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" />

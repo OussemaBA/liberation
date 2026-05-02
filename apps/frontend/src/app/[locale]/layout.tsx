@@ -34,10 +34,10 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`${inter.variable} ${cairo.variable} h-full antialiased`}
+      className={`${inter.variable} ${cairo.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <AuthProvider>
           {children}
         </AuthProvider>
