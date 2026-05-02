@@ -11,8 +11,7 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const prisma_service_1 = require("./prisma/prisma.service");
-const global_exception_filter_1 = require("./common/filters/global-exception.filter");
+const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./modules/auth/auth.module");
 const users_module_1 = require("./modules/users/users.module");
 const appointments_module_1 = require("./modules/appointments/appointments.module");
@@ -23,6 +22,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             appointments_module_1.AppointmentsModule,
@@ -31,10 +31,9 @@ exports.AppModule = AppModule = __decorate([
         controllers: [app_controller_1.AppController],
         providers: [
             app_service_1.AppService,
-            prisma_service_1.PrismaService,
             {
                 provide: core_1.APP_FILTER,
-                useClass: global_exception_filter_1.GlobalExceptionFilter,
+                useClass: GlobalExceptionFilter,
             },
         ],
     })

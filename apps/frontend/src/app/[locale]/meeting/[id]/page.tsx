@@ -2,6 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { ChevronLeft, Video, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 declare global {
   interface Window {
@@ -13,6 +16,29 @@ export default function MeetingPage() {
   const { id, locale } = useParams();
   const router = useRouter();
   const jitsiContainerRef = useRef<HTMLDivElement>(null);
+
+  const translations = {
+    en: {
+      title: "Clinical Consultation",
+      room: "Room Session",
+      back: "Leave Consultation",
+      secure: "Encrypted Clinical Session"
+    },
+    fr: {
+      title: "Consultation Clinique",
+      room: "Session de Salle",
+      back: "Quitter la Consultation",
+      secure: "Session Clinique Chiffrée"
+    },
+    ar: {
+      title: "استشارة طبية",
+      room: "جلسة الغرفة",
+      back: "مغادرة الاستشارة",
+      secure: "جلسة طبية مشفرة"
+    }
+  };
+
+  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   useEffect(() => {
     // Load Jitsi script
@@ -30,14 +56,15 @@ export default function MeetingPage() {
           height: '100%',
           parentNode: jitsiContainerRef.current,
           lang: locale as string,
+          configOverwrite: {
+            startWithAudioMuted: true,
+            disableThirdPartyRequests: true,
+          },
           interfaceConfigOverwrite: {
             TOOLBAR_BUTTONS: [
-              'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-              'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-              'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-              'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-              'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
-              'security'
+              'microphone', 'camera', 'desktop', 'fullscreen',
+              'fodeviceselection', 'hangup', 'chat', 'raisehand',
+              'videoquality', 'tileview', 'videobackgroundblur', 'help', 'mute-everyone'
             ],
           },
         };
@@ -50,25 +77,59 @@ export default function MeetingPage() {
     };
 
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, [id, locale, router]);
 
   return (
-    <div className="flex flex-col h-screen bg-brand-teal">
-      <header className="p-4 flex items-center justify-between bg-brand-teal text-white shadow-lg z-10">
-        <div className="flex items-center gap-4">
-          <button 
+    <div className="flex flex-col h-screen bg-brand-teal overflow-hidden">
+      {/* Meticulous Clinical Header */}
+      <header className="h-20 bg-brand-teal border-b border-white/10 px-8 flex items-center justify-between z-20 shrink-0">
+        <div className="flex items-center gap-6">
+          <Button 
+            variant="ghost" 
+            size="sm"
             onClick={() => router.push(`/${locale}/dashboard`)}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors rtl:rotate-180"
+            className="text-white/60 hover:text-white hover:bg-white/10 gap-2 rounded-xl px-4"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <h1 className="text-xl font-bold">{locale === 'ar' ? 'غرفة الاجتماع' : locale === 'fr' ? "Salle de réunion" : 'Meeting Room'}</h1>
+            <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
+            <span className="text-xs font-black uppercase tracking-widest hidden sm:inline">{t.back}</span>
+          </Button>
+
+          <div className="h-8 w-[1px] bg-white/10 hidden sm:block" />
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-brand-mint/20 flex items-center justify-center">
+              <Video className="h-5 w-5 text-brand-mint" />
+            </div>
+            <div>
+              <h1 className="text-sm font-black text-white leading-none mb-1">{t.title}</h1>
+              <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none">{t.room}: #{id}</p>
+            </div>
+          </div>
         </div>
-        <div className="text-sm opacity-80">Room ID: {id}</div>
+
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-mint/10 border border-brand-mint/20">
+             <ShieldCheck className="h-3 w-3 text-brand-mint" />
+             <span className="text-[10px] font-black text-brand-mint uppercase tracking-widest">{t.secure}</span>
+          </div>
+          <div className="w-8 h-8 bg-brand-mint rounded-lg flex items-center justify-center">
+            <span className="text-white font-black text-sm">ﺗ</span>
+          </div>
+        </div>
       </header>
-      <div ref={jitsiContainerRef} className="flex-1" />
+
+      {/* Fullscreen Video Experience */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        ref={jitsiContainerRef} 
+        className="flex-1 bg-black" 
+      />
     </div>
   );
 }

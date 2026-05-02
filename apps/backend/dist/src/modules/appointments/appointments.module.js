@@ -11,13 +11,12 @@ const common_1 = require("@nestjs/common");
 const appointment_service_1 = require("./services/appointment.service");
 const appointment_controller_1 = require("./controllers/appointment.controller");
 const appointment_repository_1 = require("./repositories/appointment.repository");
-const prisma_service_1 = require("../../prisma/prisma.service");
 let AppointmentsModule = class AppointmentsModule {
 };
 exports.AppointmentsModule = AppointmentsModule;
 exports.AppointmentsModule = AppointmentsModule = __decorate([
     (0, common_1.Module)({
-        providers: [appointment_service_1.AppointmentService, appointment_repository_1.AppointmentRepository, prisma_service_1.PrismaService],
+        providers: [appointment_service_1.AppointmentService, appointment_repository_1.AppointmentRepository],
         controllers: [appointment_controller_1.AppointmentController],
     })
 ], AppointmentsModule);

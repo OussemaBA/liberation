@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaService } from './prisma/prisma.service';
-import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { PrismaModule } from './prisma/prisma.module';
 
 // Modular Architecture Imports
 import { AuthModule } from './modules/auth/auth.module';
@@ -13,6 +12,7 @@ import { SubscriptionsModule } from './modules/subscriptions/subscriptions.modul
 
 @Module({
   imports: [
+    PrismaModule,
     AuthModule,
     UsersModule,
     AppointmentsModule,
@@ -21,7 +21,6 @@ import { SubscriptionsModule } from './modules/subscriptions/subscriptions.modul
   controllers: [AppController],
   providers: [
     AppService,
-    PrismaService,
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,
