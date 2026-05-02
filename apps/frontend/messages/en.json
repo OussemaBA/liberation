@@ -1,0 +1,43 @@
+{
+  "Common": {
+    "title": "Ta7aror - Liberation",
+    "logout": "Sign Out",
+    "dashboard": "Overview",
+    "profile": "Health Record",
+    "settings": "Configuration",
+    "appointments": "Clinical Sessions",
+    "join": "Join Meeting",
+    "book": "Schedule Session",
+    "support": "Contact Support",
+    "helpCenter": "Help Center",
+    "needAssistance": "Need medical assistance or support?"
+  },
+  "Dashboard": {
+    "welcome": "Clinical Dashboard",
+    "greeting": "Welcome back",
+    "subtitle": "Monitoring your journey to freedom",
+    "stats": {
+      "smokeFree": "Smoke Free Days",
+      "saved": "Currency Saved",
+      "status": "Protocol Status",
+      "days": "days",
+      "currency": "DT",
+      "active": "ACTIVE"
+    },
+    "sessions": {
+      "title": "Clinical Sessions",
+      "description": "Manage your certified clinical interactions",
+      "noAppointments": "No upcoming clinical sessions.",
+      "specialist": "Specialist"
+    },
+    "modal": {
+      "title": "Schedule clinical session",
+      "desc": "Select a professional and preferred time for your TCC session.",
+      "pro": "Select Specialist",
+      "date": "Preferred Date",
+      "time": "Preferred Time",
+      "submit": "Confirm Session",
+      "success": "Session Scheduled Successfully"
+    }
+  }
+}

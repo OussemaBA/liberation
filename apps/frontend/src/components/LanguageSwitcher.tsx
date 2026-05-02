@@ -1,55 +1,78 @@
 'use client';
 
-import { usePathname, useRouter, useParams } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Globe } from 'lucide-react';
+import * as React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { Globe, Check } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/DropdownMenu';
+import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
+const languages = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'ar', name: 'العربية', flag: '🇹🇳' },
+];
+
 export default function LanguageSwitcher() {
-  const pathname = usePathname();
   const router = useRouter();
-  const { locale: currentLocale } = useParams();
+  const pathname = usePathname();
+  const params = useParams();
+  const currentLocale = params.locale as string;
 
-  const locales = [
-    { code: 'en', label: 'EN', flag: '🇺🇸' },
-    { code: 'fr', label: 'FR', flag: '🇫🇷' },
-    { code: 'ar', label: 'AR', flag: '🇹🇳' },
-  ];
+  const handleLanguageChange = (newLocale: string) => {
+    if (newLocale === currentLocale) return;
 
-  const handleLocaleChange = (newLocale: string) => {
-    const newPath = pathname.replace(`/${currentLocale}`, `/${newLocale}`);
-    router.push(newPath);
+    // Replace the locale part of the pathname
+    const segments = pathname.split('/');
+    segments[1] = newLocale;
+    const newPathname = segments.join('/');
+
+    router.push(newPathname);
   };
 
+  const currentLanguage = languages.find((lang) => lang.code === currentLocale) || languages[1];
+
   return (
-    <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-100 p-1 rounded-2xl shadow-inner">
-      <div className="ps-3 pe-1 text-slate-300">
-        <Globe className="h-3.5 w-3.5" />
-      </div>
-      {locales.map((locale) => (
-        <button
-          key={locale.code}
-          onClick={() => handleLocaleChange(locale.code)}
-          className={cn(
-            "relative px-4 py-1.5 text-[10px] font-black tracking-widest transition-all rounded-xl overflow-hidden",
-            currentLocale === locale.code
-              ? "text-white"
-              : "text-slate-400 hover:text-brand-teal"
-          )}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="flex items-center gap-2 rounded-xl hover:bg-slate-100 transition-all font-bold text-brand-teal"
         >
-          {currentLocale === locale.code && (
-            <motion.div
-              layoutId="active-lang"
-              className="absolute inset-0 bg-brand-teal shadow-lg shadow-brand-teal/20"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-          <span className="relative z-10 flex items-center gap-1.5">
-            <span className="hidden sm:inline">{locale.flag}</span>
-            {locale.label}
-          </span>
-        </button>
-      ))}
-    </div>
+          <Globe className="h-4 w-4 text-brand-mint" />
+          <span className="hidden sm:inline">{currentLanguage.name}</span>
+          <span className="sm:hidden">{currentLanguage.code.toUpperCase()}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuLabel>Select Language</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {languages.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => handleLanguageChange(lang.code)}
+            className={cn(
+              "flex items-center justify-between cursor-pointer",
+              currentLocale === lang.code && "text-brand-mint"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-lg">{lang.flag}</span>
+              <span>{lang.name}</span>
+            </div>
+            {currentLocale === lang.code && <Check className="h-4 w-4" />}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

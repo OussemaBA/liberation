@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const withNextIntl = createNextIntlPlugin();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   allowedDevOrigins: ['*.ngrok-free.app', 'localhost:3000'],
   async rewrites() {
     return [
@@ -16,10 +18,9 @@ const nextConfig: NextConfig = {
       allowedOrigins: ['localhost:3000', '*.ngrok-free.app'],
     },
   },
-  // This helps with WebSocket and static assets when behind a proxy like ngrok
   devIndicators: {
     appIsrStatus: false,
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

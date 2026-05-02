@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/features/auth/components/AuthProvider";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 export default async function RootLayout({
   children,
@@ -29,6 +31,7 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
   const isRtl = locale === 'ar';
+  const messages = await getMessages();
 
   return (
     <html
@@ -38,9 +41,11 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <NextIntlClientProvider messages={messages}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

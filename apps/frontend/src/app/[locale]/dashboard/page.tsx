@@ -44,7 +44,11 @@ import {
 import { Input } from '@/components/ui/Input';
 import { cn } from '@/lib/utils';
 
+import { useTranslations } from 'next-intl';
+
 export default function DashboardPage() {
+  const t = useTranslations('Dashboard');
+  const tc = useTranslations('Common');
   const { user, token, logout, isLoading: authLoading } = useAuth();
   const { locale } = useParams();
   const router = useRouter();
@@ -61,95 +65,6 @@ export default function DashboardPage() {
     date: '',
     time: '10:00',
   });
-
-  const translations = {
-    en: {
-      welcome: "Clinical Dashboard",
-      greeting: "Welcome back",
-      subtitle: "Monitoring your journey to freedom",
-      stats: {
-        smokeFree: "Smoke Free Days",
-        saved: "Currency Saved",
-        status: "Protocol Status",
-      },
-      appointments: "Clinical Sessions",
-      noAppointments: "No upcoming clinical sessions.",
-      book: "Schedule Session",
-      subscription: "Active Protocol",
-      logout: "Sign Out",
-      dashboard: "Overview",
-      profile: "Health Record",
-      settings: "Configuration",
-      join: "Join Meeting",
-      modal: {
-        title: "Schedule clinical session",
-        desc: "Select a professional and preferred time for your TCC session.",
-        pro: "Select Specialist",
-        date: "Preferred Date",
-        time: "Preferred Time",
-        submit: "Confirm Session",
-        success: "Session Scheduled Successfully"
-      }
-    },
-    fr: {
-      welcome: "Tableau Clinique",
-      greeting: "Bon retour",
-      subtitle: "Suivi de votre parcours de liberté",
-      stats: {
-        smokeFree: "Jours sans Tabac",
-        saved: "Économies Réalisées",
-        status: "Statut Protocole",
-      },
-      appointments: "Séances Cliniques",
-      noAppointments: "Aucune séance prévue.",
-      book: "Planifier Séance",
-      subscription: "Protocole Actif",
-      logout: "Déconnexion",
-      dashboard: "Aperçu",
-      profile: "Dossier Santé",
-      settings: "Configuration",
-      join: "Rejoindre",
-      modal: {
-        title: "Planifier une séance clinique",
-        desc: "Choisissez un professionnel et l'heure pour votre séance TCC.",
-        pro: "Sélectionner un spécialiste",
-        date: "Date souhaitée",
-        time: "Heure souhaitée",
-        submit: "Confirmer la séance",
-        success: "Séance planifiée avec succès"
-      }
-    },
-    ar: {
-      welcome: "لوحة التحكم الطبية",
-      greeting: "مرحباً بك مجدداً",
-      subtitle: "متابعة رحلتك نحو التحرر",
-      stats: {
-        smokeFree: "أيام بدون تدخين",
-        saved: "المبالغ المدخرة",
-        status: "حالة البروتوكول",
-      },
-      appointments: "الجلسات الطبية",
-      noAppointments: "لا توجد جلسات قادمة.",
-      book: "حجز جلسة",
-      subscription: "البروتوكول النشط",
-      logout: "تسجيل الخروج",
-      dashboard: "نظرة عامة",
-      profile: "السجل الصحي",
-      settings: "الإعدادات",
-      join: "انضمام",
-      modal: {
-        title: "حجز جلسة طبية",
-        desc: "اختر المتخصص والوقت المفضل لجلسة العلاج المعرفي السلوكي.",
-        pro: "اختر الأخصائي",
-        date: "التاريخ",
-        time: "الوقت",
-        submit: "تأكيد الحجز",
-        success: "تم حجز الجلسة بنجاح"
-      }
-    },
-  };
-
-  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   const fetchData = async () => {
     if (!token) return;
@@ -222,31 +137,31 @@ export default function DashboardPage() {
       <nav className="flex-1 px-6 space-y-2">
         <div className="px-4 py-4 rounded-xl bg-white/10 text-white font-bold flex items-center gap-3 cursor-pointer">
           <LayoutDashboard className="w-5 h-5 text-brand-mint shrink-0" />
-          <span className="truncate">{t.dashboard}</span>
+          <span className="truncate">{tc('dashboard')}</span>
         </div>
         <div className="px-4 py-4 rounded-xl text-white/40 font-bold hover:bg-white/5 transition-all flex items-center gap-3 cursor-pointer group">
           <User className="w-5 h-5 group-hover:text-white transition-colors shrink-0" />
-          <span className="group-hover:text-white transition-colors truncate">{t.profile}</span>
+          <span className="group-hover:text-white transition-colors truncate">{tc('profile')}</span>
         </div>
         <div className="px-4 py-4 rounded-xl text-white/40 font-bold hover:bg-white/5 transition-all flex items-center gap-3 cursor-pointer group">
           <CalendarIcon className="w-5 h-5 group-hover:text-white transition-colors shrink-0" />
-          <span className="group-hover:text-white transition-colors truncate">{t.appointments}</span>
+          <span className="group-hover:text-white transition-colors truncate">{tc('appointments')}</span>
         </div>
         <div className="px-4 py-4 rounded-xl text-white/40 font-bold hover:bg-white/5 transition-all flex items-center gap-3 cursor-pointer group">
           <Settings className="w-5 h-5 group-hover:text-white transition-colors shrink-0" />
-          <span className="group-hover:text-white transition-colors truncate">{t.settings}</span>
+          <span className="group-hover:text-white transition-colors truncate">{tc('settings')}</span>
         </div>
       </nav>
 
       <div className="p-8 lg:p-10 mt-auto border-t border-white/5 space-y-8">
         <div className="p-6 rounded-[2rem] bg-brand-mint/10 border border-brand-mint/20">
-          <p className="text-xs font-black text-brand-mint uppercase tracking-widest mb-2">Help Center</p>
-          <p className="text-sm text-white/60 font-medium mb-4">Need medical assistance or support?</p>
-          <Button size="sm" className="w-full bg-brand-mint hover:bg-brand-mint/90 rounded-xl">Contact Support</Button>
+          <p className="text-xs font-black text-brand-mint uppercase tracking-widest mb-2">{tc('helpCenter')}</p>
+          <p className="text-sm text-white/60 font-medium mb-4">{tc('needAssistance')}</p>
+          <Button size="sm" className="w-full bg-brand-mint hover:bg-brand-mint/90 rounded-xl">{tc('support')}</Button>
         </div>
         <button onClick={logout} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-destructive font-bold hover:bg-destructive/10 transition-all group">
           <LogOut className="w-5 h-5 opacity-60 group-hover:opacity-100 shrink-0" />
-          <span className="truncate">{t.logout}</span>
+          <span className="truncate">{tc('logout')}</span>
         </button>
       </div>
     </div>
@@ -281,7 +196,7 @@ export default function DashboardPage() {
               <Menu className="h-6 w-6 text-brand-teal" />
             </button>
             
-            <div className="hidden lg:flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 w-full max-w-sm">
+            <div className="hidden lg:flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 w-full max-sm:hidden max-w-sm">
               <Search className="h-4 w-4 text-slate-300 shrink-0" />
               <input type="text" placeholder="Search protocol data..." className="bg-transparent border-none text-sm font-medium focus:ring-0 placeholder:text-slate-300 w-full truncate" />
             </div>
@@ -325,9 +240,9 @@ export default function DashboardPage() {
           {/* Metrics Grid - Responsive Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {[
-              { label: t.stats.smokeFree, value: "12", unit: "days", icon: TrendingUp, color: "text-brand-mint", bgColor: "bg-brand-mint/10", trend: "+2" },
-              { label: t.stats.saved, value: "184", unit: "DT", icon: Wallet, color: "text-brand-gold", bgColor: "bg-brand-gold/10", trend: "8% saved" },
-              { label: t.stats.status, value: subscription?.pack?.name || "None", unit: "ACTIVE", icon: Award, color: "text-brand-teal", bgColor: "bg-brand-teal/10", trend: "Level 2" }
+              { label: t('stats.smokeFree'), value: "12", unit: t('stats.days'), icon: TrendingUp, color: "text-brand-mint", bgColor: "bg-brand-mint/10", trend: "+2" },
+              { label: t('stats.saved'), value: "184", unit: t('stats.currency'), icon: Wallet, color: "text-brand-gold", bgColor: "bg-brand-gold/10", trend: "8% saved" },
+              { label: t('stats.status'), value: subscription?.pack?.name || "None", unit: t('stats.active'), icon: Award, color: "text-brand-teal", bgColor: "bg-brand-teal/10", trend: "Level 2" }
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -362,12 +277,12 @@ export default function DashboardPage() {
               <Card className="border-none shadow-xl shadow-slate-200/40 rounded-[2.5rem] overflow-hidden">
                 <CardHeader className="p-6 sm:p-8 lg:p-10 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <CardTitle className="text-xl sm:text-2xl">{t.appointments}</CardTitle>
-                    <CardDescription className="text-sm mt-1">Manage your certified clinical interactions</CardDescription>
+                    <CardTitle className="text-xl sm:text-2xl">{t('sessions.title')}</CardTitle>
+                    <CardDescription className="text-sm mt-1">{t('sessions.description')}</CardDescription>
                   </div>
                   <Button onClick={() => setIsBookingOpen(true)} variant="brand" className="rounded-xl shadow-lg shadow-brand-teal/10 px-6 w-full sm:w-auto">
                     <Plus className="h-4 w-4 me-2" />
-                    {t.book}
+                    {tc('book')}
                   </Button>
                 </CardHeader>
                 
@@ -400,7 +315,7 @@ export default function DashboardPage() {
                           <Link href={`/${locale}/meeting/${appt.id}`} className="w-full sm:w-auto">
                             <Button variant="ghost" className="w-full sm:w-auto rounded-xl font-bold text-brand-mint group-hover:bg-brand-mint group-hover:text-white group-hover:shadow-lg group-hover:shadow-brand-mint/20 transition-all">
                               <Video className="h-4 w-4 me-2" />
-                              {t.join}
+                              {tc('join')}
                             </Button>
                           </Link>
                         </motion.div>
@@ -411,9 +326,9 @@ export default function DashboardPage() {
                       <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm shrink-0">
                          <CalendarIcon className="h-8 w-8 text-slate-200" />
                       </div>
-                      <p className="text-slate-400 font-bold max-w-xs mx-auto mb-8 px-4">{t.noAppointments}</p>
+                      <p className="text-slate-400 font-bold max-w-xs mx-auto mb-8 px-4">{t('sessions.noAppointments')}</p>
                       <Button onClick={() => setIsBookingOpen(true)} variant="outline" className="rounded-xl border-slate-200 font-bold bg-white">
-                        {t.book}
+                        {tc('book')}
                       </Button>
                     </div>
                   )}
@@ -442,15 +357,15 @@ export default function DashboardPage() {
             <div className="w-12 h-12 bg-brand-mint/10 rounded-2xl flex items-center justify-center mb-4 shrink-0">
               <CalendarDays className="h-6 w-6 text-brand-mint" />
             </div>
-            <DialogTitle className="text-xl sm:text-2xl">{t.modal.title}</DialogTitle>
-            <DialogDescription className="text-sm">{t.modal.desc}</DialogDescription>
+            <DialogTitle className="text-xl sm:text-2xl">{t('modal.title')}</DialogTitle>
+            <DialogDescription className="text-sm">{t('modal.desc')}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleBookingSubmit} className="space-y-6 pt-4">
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ms-1 flex items-center gap-2">
                 <UserCheck className="h-3 w-3" />
-                {t.modal.pro}
+                {t('modal.pro')}
               </label>
               <select
                 required
@@ -470,7 +385,7 @@ export default function DashboardPage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ms-1 flex items-center gap-2">
                   <CalendarIcon className="h-3 w-3" />
-                  {t.modal.date}
+                  {t('modal.date')}
                 </label>
                 <Input
                   type="date"
@@ -484,7 +399,7 @@ export default function DashboardPage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ms-1 flex items-center gap-2">
                   <Clock className="h-3 w-3" />
-                  {t.modal.time}
+                  {t('modal.time')}
                 </label>
                 <Input
                   type="time"
@@ -504,7 +419,7 @@ export default function DashboardPage() {
             >
               {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : (
                 <>
-                  <span className="truncate">{t.modal.submit}</span>
+                  <span className="truncate">{t('modal.submit')}</span>
                   <CheckCircle2 className="ms-2 h-5 w-5 group-hover:scale-110 transition-transform shrink-0" />
                 </>
               )}

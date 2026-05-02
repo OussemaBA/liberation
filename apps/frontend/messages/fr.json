@@ -1,0 +1,43 @@
+{
+  "Common": {
+    "title": "Ta7aror - Libération",
+    "logout": "Déconnexion",
+    "dashboard": "Aperçu",
+    "profile": "Dossier Santé",
+    "settings": "Configuration",
+    "appointments": "Séances Cliniques",
+    "join": "Rejoindre",
+    "book": "Planifier Séance",
+    "support": "Contacter le Support",
+    "helpCenter": "Centre d'Aide",
+    "needAssistance": "Besoin d'assistance médicale ou de support ?"
+  },
+  "Dashboard": {
+    "welcome": "Tableau Clinique",
+    "greeting": "Bon retour",
+    "subtitle": "Suivi de votre parcours de liberté",
+    "stats": {
+      "smokeFree": "Jours sans Tabac",
+      "saved": "Économies Réalisées",
+      "status": "Statut Protocole",
+      "days": "jours",
+      "currency": "DT",
+      "active": "ACTIF"
+    },
+    "sessions": {
+      "title": "Séances Cliniques",
+      "description": "Gérez vos interactions cliniques certifiées",
+      "noAppointments": "Aucune séance prévue.",
+      "specialist": "Spécialiste"
+    },
+    "modal": {
+      "title": "Planifier une séance clinique",
+      "desc": "Choisissez un professionnel et l'heure pour votre séance TCC.",
+      "pro": "Sélectionner un spécialiste",
+      "date": "Date souhaitée",
+      "time": "Heure souhaitée",
+      "submit": "Confirmer la séance",
+      "success": "Séance planifiée avec succès"
+    }
+  }
+}
