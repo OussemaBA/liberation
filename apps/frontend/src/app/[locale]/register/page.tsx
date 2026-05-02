@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth } from '@/features/auth/components/AuthProvider';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronLeft, User, Mail, Lock, Loader2, ArrowRight, Activity } from 'lucide-react';
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { AuthService } from '@/lib/services/auth.service';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -87,24 +88,13 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || t.genericError);
-      }
-
-      const data = await response.json();
+      const data = await AuthService.register(formData);
       login(data.access_token, data.user);
       
       if (data.user.role === 'PATIENT') router.push(`/${locale}/pricing`);
       else router.push(`/${locale}/dashboard/pro`);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || t.genericError);
     } finally {
       setIsLoading(false);
     }

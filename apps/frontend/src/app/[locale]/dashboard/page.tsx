@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/components/AuthProvider';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/features/auth/components/AuthProvider';
 import { 
   LayoutDashboard, 
   User, 
@@ -24,11 +24,13 @@ import {
   Video
 } from 'lucide-react';
 import Link from 'next/link';
-import Calendar from '@/components/Calendar';
-import SolidarityBanner from '@/components/SolidarityBanner';
+import Calendar from '@/features/appointments/components/Calendar';
+import SolidarityBanner from '@/features/dashboard/components/SolidarityBanner';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { AppointmentService } from '@/lib/services/appointment.service';
+import { SubscriptionService } from '@/lib/services/subscription.service';
 import { 
   Dialog, 
   DialogContent, 
@@ -148,25 +150,16 @@ export default function DashboardPage() {
   const fetchData = async () => {
     if (!token) return;
     try {
-      const [apptsRes, subRes, prosRes] = await Promise.all([
-        fetch('/api/appointments', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch('/api/subscriptions/current', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch('/api/appointments/professionals', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+      const [appts, sub, pros] = await Promise.all([
+        AppointmentService.findAll(token),
+        SubscriptionService.findCurrent(token),
+        AppointmentService.findProfessionals(token)
       ]);
 
-      if (apptsRes.ok) setAppointments(await apptsRes.json());
-      if (subRes.ok) setSubscription(await subRes.json());
-      if (prosRes.ok) {
-        const pros = await prosRes.json();
-        setProfessionals(pros);
-        if (pros.length > 0) setBookingData(prev => ({ ...prev, professionalId: pros[0].id }));
-      }
+      setAppointments(appts);
+      setSubscription(sub);
+      setProfessionals(pros);
+      if (pros.length > 0) setBookingData(prev => ({ ...prev, professionalId: pros[0].id }));
     } catch (err) {
       console.error(err);
     } finally {
@@ -189,22 +182,13 @@ export default function DashboardPage() {
 
     try {
       const dateTime = `${bookingData.date}T${bookingData.time}:00.000Z`;
-      const res = await fetch('/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          professionalId: bookingData.professionalId,
-          dateTime,
-        }),
+      await AppointmentService.create(token, {
+        professionalId: bookingData.professionalId,
+        dateTime,
       });
 
-      if (res.ok) {
-        await fetchData();
-        setIsBookingOpen(false);
-      }
+      await fetchData();
+      setIsBookingOpen(false);
     } catch (err) {
       console.error(err);
     } finally {

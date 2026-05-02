@@ -5,10 +5,11 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, Loader2, Sparkles, ShieldCheck, HeartPulse } from 'lucide-react';
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth } from '@/features/auth/components/AuthProvider';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { SubscriptionService } from '@/lib/services/subscription.service';
 
 export default function PricingPage() {
   const { locale } = useParams();
@@ -74,11 +75,8 @@ export default function PricingPage() {
   useEffect(() => {
     const fetchPacks = async () => {
       try {
-        const res = await fetch('/api/subscriptions/packs');
-        if (res.ok) {
-          const data = await res.json();
-          setPacks(data);
-        }
+        const data = await SubscriptionService.findAllPacks();
+        setPacks(data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -97,16 +95,8 @@ export default function PricingPage() {
 
     setIsSubmitting(packId);
     try {
-      const res = await fetch('/api/subscriptions/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ packId }),
-      });
-
-      if (res.ok) router.push(`/${locale}/dashboard`);
+      await SubscriptionService.subscribe(token, packId);
+      router.push(`/${locale}/dashboard`);
     } catch (err) {
       console.error(err);
     } finally {

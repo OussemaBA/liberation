@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth } from '@/features/auth/components/AuthProvider';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Lock, Mail, Loader2, ArrowRight } from 'lucide-react';
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { AuthService } from '@/lib/services/auth.service';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -69,21 +70,13 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error(t.invalid);
-
-      const data = await response.json();
+      const data = await AuthService.login(formData);
       login(data.access_token, data.user);
       
       if (redirect) router.push(`/${locale}/${redirect}`);
       else router.push(`/${locale}/dashboard`);
     } catch (err: any) {
-      setError(err.message);
+      setError(t.invalid);
     } finally {
       setIsLoading(false);
     }

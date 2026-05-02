@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Plateforme d'accompagnement au sevrage tabagique",
 };
 
-import { AuthProvider } from "@/components/AuthProvider";
+import { AuthProvider } from "@/features/auth/components/AuthProvider";
 
 export default async function RootLayout({
   children,

@@ -8,20 +8,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const core_1 = require("@nestjs/core");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const prisma_service_1 = require("./prisma/prisma.service");
-const auth_module_1 = require("./auth/auth.module");
-const appointments_module_1 = require("./appointments/appointments.module");
-const subscriptions_module_1 = require("./subscriptions/subscriptions.module");
+const global_exception_filter_1 = require("./common/filters/global-exception.filter");
+const auth_module_1 = require("./modules/auth/auth.module");
+const users_module_1 = require("./modules/users/users.module");
+const appointments_module_1 = require("./modules/appointments/appointments.module");
+const subscriptions_module_1 = require("./modules/subscriptions/subscriptions.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, appointments_module_1.AppointmentsModule, subscriptions_module_1.SubscriptionsModule],
+        imports: [
+            auth_module_1.AuthModule,
+            users_module_1.UsersModule,
+            appointments_module_1.AppointmentsModule,
+            subscriptions_module_1.SubscriptionsModule,
+        ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, prisma_service_1.PrismaService],
+        providers: [
+            app_service_1.AppService,
+            prisma_service_1.PrismaService,
+            {
+                provide: core_1.APP_FILTER,
+                useClass: global_exception_filter_1.GlobalExceptionFilter,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
