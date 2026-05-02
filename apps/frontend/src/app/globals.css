@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-teal: #0A2E36;
+  --color-brand-mint: #1B8770;
+  --color-brand-gold: #C89454;
+  
+  --font-inter: "Inter", sans-serif;
+  --font-cairo: "Cairo", sans-serif;
+  --font-tajawal: "Tajawal", sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0A2E36;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0A2E36;
+    --foreground: #ffffff;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* RTL Support for specific components if needed, 
+   though Tailwind logical properties handle most of it */
+[dir="rtl"] {
+  font-family: var(--font-cairo);
+}
+
+[dir="ltr"] {
+  font-family: var(--font-inter);
+}
