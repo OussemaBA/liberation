@@ -1,6 +1,7 @@
 {
   "Common": {
     "title": "Ta7aror - Libération",
+    "login": "Connexion",
     "logout": "Déconnexion",
     "dashboard": "Aperçu",
     "profile": "Dossier Santé",
@@ -38,6 +39,13 @@
       "time": "Heure souhaitée",
       "submit": "Confirmer la séance",
       "success": "Séance planifiée avec succès"
+    },
+    "search": "Rechercher données du protocole...",
+    "solidarity": {
+      "title": "Initiative de Solidarité Clinique",
+      "message": "10% de chaque abonnement est directement alloué aux services de santé mentale certifiés à Gaza et au Liban.",
+      "badge": "Engagement Humanitaire",
+      "action": "Suivre l'Impact"
     }
   },
   "Home": {

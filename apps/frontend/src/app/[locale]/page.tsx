@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react";
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowRight, 
@@ -71,7 +71,7 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">{t('footer.protocol')}</Link>
             <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">{t('footer.science')}</Link>
-            <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Testimonials</Link>
+            <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">{t('hero.secondary')}</Link>
           </div>
 
           <div className="flex items-center gap-4">
@@ -79,10 +79,10 @@ export default function Home() {
               <LanguageSwitcher />
             </div>
             <Link href={`/${locale}/login`}>
-              <Button variant="ghost" className="text-slate-600 font-bold">Sign In</Button>
+              <Button variant="ghost" className="text-slate-600 font-bold">{tc('login')}</Button>
             </Link>
             <Link href={`/${locale}/register`}>
-              <Button variant="brand" className="rounded-xl shadow-xl shadow-brand-teal/10">Get Started</Button>
+              <Button variant="brand" className="rounded-xl shadow-xl shadow-brand-teal/10">{t('cta.button')}</Button>
             </Link>
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function Home() {
                   <p className="text-sm sm:text-base text-slate-500 font-medium leading-relaxed mb-6">{feature.desc}</p>
                   <div className="flex items-center text-brand-mint font-bold text-sm">
                     {t('features.learnMore')} 
-                    <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" />
+                    <ChevronRight className={cn("ms-1 h-4 w-4", locale === 'ar' && "rotate-180")} />
                   </div>
                 </CardContent>
               </Card>

@@ -31,7 +31,12 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
   const isRtl = locale === 'ar';
-  const messages = await getMessages();
+  
+  console.log(`[Layout] Fetching messages for locale: ${locale}`);
+  // Force the locale in getMessages to ensure correct dictionary is loaded
+  const messages = await getMessages({ locale });
+
+  console.log(`[Layout] Rendering RootLayout for locale: ${locale}, RTL: ${isRtl}`);
 
   return (
     <html
@@ -41,7 +46,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
             {children}
           </AuthProvider>

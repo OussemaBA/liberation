@@ -1,32 +1,11 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Heart, Globe2, ShieldPlus } from 'lucide-react';
 
 export default function SolidarityBanner() {
-  const { locale } = useParams();
-
-  const content = {
-    en: {
-      title: "Clinical Solidarity Initiative",
-      message: "10% of every protocol subscription is directly allocated to certified mental health services in Gaza and Lebanon.",
-      badge: "Humanitarian Commitment",
-      action: "Track Impact"
-    },
-    fr: {
-      title: "Initiative de Solidarité Clinique",
-      message: "10% de chaque abonnement est directement alloué aux services de santé mentale certifiés à Gaza et au Liban.",
-      badge: "Engagement Humanitaire",
-      action: "Suivre l'Impact"
-    },
-    ar: {
-      title: "مبادرة التضامن الطبي",
-      message: "يتم تخصيص 10٪ من كل اشتراك مباشرة لخدمات الصحة النفسية المعتمدة في غزة ولبنان.",
-      badge: "التزام إنساني",
-      action: "تابع الأثر"
-    },
-  }[locale as 'en' | 'fr' | 'ar'] || content.fr;
+  const t = useTranslations('Dashboard.solidarity');
 
   return (
     <motion.div 
@@ -41,13 +20,13 @@ export default function SolidarityBanner() {
         <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-6">
             <ShieldPlus className="h-3 w-3 text-brand-mint" />
-            {content.badge}
+            {t('badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4 tracking-tight leading-tight">
-            {content.title}
+            {t('title')}
           </h2>
           <p className="text-white/60 text-base sm:text-lg font-medium max-w-2xl leading-relaxed">
-            {content.message}
+            {t('message')}
           </p>
         </div>
         
@@ -58,7 +37,7 @@ export default function SolidarityBanner() {
           <div className="hidden sm:block h-12 w-[1px] bg-white/10 mx-2 lg:mx-4" />
           <div className="flex items-center gap-3">
             <Globe2 className="h-4 w-4 sm:h-5 sm:w-5 text-white/40" />
-            <span className="text-xs sm:text-sm font-black text-white/40 uppercase tracking-widest">{content.action}</span>
+            <span className="text-xs sm:text-sm font-black text-white/40 uppercase tracking-widest">{t('action')}</span>
           </div>
         </div>
       </div>

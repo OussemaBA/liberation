@@ -1,6 +1,7 @@
 {
   "Common": {
     "title": "Ta7aror - Liberation",
+    "login": "Sign In",
     "logout": "Sign Out",
     "dashboard": "Overview",
     "profile": "Health Record",
@@ -38,6 +39,13 @@
       "time": "Preferred Time",
       "submit": "Confirm Session",
       "success": "Session Scheduled Successfully"
+    },
+    "search": "Search protocol data...",
+    "solidarity": {
+      "title": "Clinical Solidarity Initiative",
+      "message": "10% of every protocol subscription is directly allocated to certified mental health services in Gaza and Lebanon.",
+      "badge": "Humanitarian Commitment",
+      "action": "Track Impact"
     }
   },
   "Home": {

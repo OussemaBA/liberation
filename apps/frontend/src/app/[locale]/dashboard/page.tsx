@@ -198,7 +198,7 @@ export default function DashboardPage() {
             
             <div className="hidden lg:flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 w-full max-sm:hidden max-w-sm">
               <Search className="h-4 w-4 text-slate-300 shrink-0" />
-              <input type="text" placeholder="Search protocol data..." className="bg-transparent border-none text-sm font-medium focus:ring-0 placeholder:text-slate-300 w-full truncate" />
+              <input type="text" placeholder={t('search')} className="bg-transparent border-none text-sm font-medium focus:ring-0 placeholder:text-slate-300 w-full truncate" />
             </div>
 
             {/* Mobile Brand Logo */}
@@ -219,7 +219,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer max-w-[200px]">
               <div className="text-right hidden md:block min-w-0">
                 <p className="text-sm font-black text-brand-teal leading-none mb-1 truncate">{user?.firstName} {user?.lastName}</p>
-                <p className="text-[10px] font-black text-brand-mint uppercase tracking-widest leading-none">PatientID: #7742</p>
+                <p className="text-[10px] font-black text-brand-mint uppercase tracking-widest leading-none">{t('stats.status')}: #7742</p>
               </div>
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-teal flex items-center justify-center font-black text-white shadow-xl shadow-brand-teal/10 relative transition-transform active:scale-95 shrink-0">
                 {user?.firstName?.[0]}{user?.lastName?.[0]}
