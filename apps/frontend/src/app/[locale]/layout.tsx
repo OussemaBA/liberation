@@ -39,7 +39,6 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          <LanguageSwitcher currentLocale={locale} />
           {children}
         </AuthProvider>
       </body>

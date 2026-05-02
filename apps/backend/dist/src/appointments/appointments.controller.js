@@ -22,7 +22,10 @@ let AppointmentsController = class AppointmentsController {
         this.appointmentsService = appointmentsService;
     }
     async create(req, body) {
-        return this.appointmentsService.create(body);
+        return this.appointmentsService.create({
+            ...body,
+            userId: req.user.userId,
+        });
     }
     async findAll(req) {
         return this.appointmentsService.findAllForUser(req.user.userId, req.user.role);

@@ -19,9 +19,15 @@ let AppointmentsService = class AppointmentsService {
         this.prisma = prisma;
     }
     async create(data) {
+        const patient = await this.prisma.patientProfile.findUnique({
+            where: { userId: data.userId },
+        });
+        if (!patient) {
+            throw new common_1.NotFoundException('Patient profile not found. Please complete your registration.');
+        }
         return this.prisma.appointment.create({
             data: {
-                patientId: data.patientId,
+                patientId: patient.id,
                 professionalId: data.professionalId,
                 dateTime: new Date(data.dateTime),
                 duration: data.duration ?? 30,

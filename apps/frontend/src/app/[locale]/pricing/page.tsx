@@ -3,82 +3,84 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Check, ArrowRight, Loader2, Sparkles, ShieldCheck, HeartPulse } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function PricingPage() {
   const { locale } = useParams();
   const router = useRouter();
-  const { token, user } = useAuth();
+  const { token } = useAuth();
   const [packs, setPacks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState<string | null>(null);
 
-  const t = {
+  const translations = {
     en: {
-      title: 'Choose Your Plan',
-      subtitle: 'Select the pack that best fits your journey to freedom',
-      popular: 'Most Popular',
+      title: 'Select Your Protocol',
+      subtitle: 'The clinical path to a smoke-free life starts here',
+      popular: 'Clinical Standard',
       month: 'Month',
       months: 'Months',
-      select: 'Choose this plan',
+      select: 'Initiate Protocol',
       features: [
-        'Weekly medical checkups',
-        'Direct access to psychologists',
-        'Daily progress tracking',
-        'Clinical support network',
+        'Weekly Clinical Checkups',
+        'Certified Psychologist Access',
+        'Real-time Health Progress',
+        '24/7 Clinical Support'
       ],
-      simulatedNotice: 'Note: This is a simulated payment for development.',
-      loginRequired: 'Please login to subscribe to a plan.',
+      notice: 'Certified Medical Simulation',
+      loginRequired: 'Authentication required to proceed.'
     },
     fr: {
-      title: 'Choisissez votre pack',
-      subtitle: 'Sélectionnez le plan qui correspond le mieux à votre parcours',
-      popular: 'Le plus populaire',
+      title: 'Choisissez votre Protocole',
+      subtitle: 'Le chemin clinique vers une vie sans tabac commence ici',
+      popular: 'Standard Clinique',
       month: 'Mois',
       months: 'Mois',
-      select: 'Choisir ce plan',
+      select: 'Initier le Protocole',
       features: [
-        'Suivi médical hebdomadaire',
-        'Accès direct aux psychologues',
-        'Suivi quotidien des progrès',
-        'Réseau de soutien clinique',
+        'Suivi Clinique Hebdomadaire',
+        'Accès Psychologue Diplômé',
+        'Progrès Santé en Temps Réel',
+        'Support Clinique 24/7'
       ],
-      simulatedNotice: 'Note: Ceci est un paiement simulé pour le développement.',
-      loginRequired: 'Veuillez vous connecter pour souscrire à un plan.',
+      notice: 'Simulation Médicale Certifiée',
+      loginRequired: 'Authentification requise pour continuer.'
     },
     ar: {
-      title: 'اختر باقتك',
-      subtitle: 'اختر الباقة التي تناسب رحلتك نحو التحرر',
-      popular: 'الأكثر شعبية',
+      title: 'اختر بروتوكولك الطبي',
+      subtitle: 'المسار السريري نحو حياة خالية من التدخين يبدأ من هنا',
+      popular: 'المعيار الطبي',
       month: 'شهر',
       months: 'أشهر',
-      select: 'اختر هذه الباقة',
+      select: 'بدء البروتوكول',
       features: [
         'متابعة طبية أسبوعية',
-        'تواصل مباشر مع أخصائيين نفسيين',
-        'تتبع يومي للتقدم',
-        'شبكة دعم عيادي متكاملة',
+        'تواصل مع أخصائيين معتمدين',
+        'تتبع مؤشرات الصحة لحظياً',
+        'دعم طبي على مدار الساعة'
       ],
-      simulatedNotice: 'ملاحظة: هذه عملية دفع تجريبية للتطوير.',
-      loginRequired: 'يرجى تسجيل الدخول للاشتراك في باقة.',
-    },
-  }[locale as 'en' | 'fr' | 'ar'] || t.fr;
+      notice: 'محاكاة طبية معتمدة',
+      loginRequired: 'يرجى تسجيل الدخول للمتابعة.'
+    }
+  };
+
+  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   useEffect(() => {
     const fetchPacks = async () => {
       try {
-        console.log('Fetching packs from /api/subscriptions/packs...');
         const res = await fetch('/api/subscriptions/packs');
-        console.log('Fetch response status:', res.status);
         if (res.ok) {
           const data = await res.json();
-          console.log('Packs fetched successfully:', data.length);
           setPacks(data);
-        } else {
-          console.error('Failed to fetch packs, status:', res.status);
         }
       } catch (err) {
-        console.error('Fetch error:', err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -104,17 +106,9 @@ export default function PricingPage() {
         body: JSON.stringify({ packId }),
       });
 
-      if (res.ok) {
-        // Success! Redirect to dashboard
-        router.push(`/${locale}/dashboard`);
-      } else {
-        const errorData = await res.json().catch(() => ({}));
-        console.error('Subscription failed:', errorData);
-        alert('Payment simulation failed. Please try again or ensure you are logged in.');
-      }
+      if (res.ok) router.push(`/${locale}/dashboard`);
     } catch (err) {
       console.error(err);
-      alert('An error occurred. Please check your connection.');
     } finally {
       setIsSubmitting(null);
     }
@@ -122,82 +116,108 @@ export default function PricingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen brand-gradient flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-mint"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-brand-mint" />
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen brand-gradient py-24 px-6 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] start-[-5%] w-[40%] h-[40%] bg-brand-mint/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] end-[-5%] w-[40%] h-[40%] bg-brand-gold/10 rounded-full blur-[120px]"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20 animate-fade-up">
-          <h1 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">{t.title}</h1>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto font-medium">{t.subtitle}</p>
-          <div className="mt-4 inline-block px-4 py-1.5 rounded-full bg-brand-gold/20 border border-brand-gold/30 text-brand-gold font-bold text-xs">
-            {t.simulatedNotice}
+    <main className="min-h-screen bg-slate-50 relative overflow-hidden">
+      <nav className="fixed top-0 w-full z-50 h-20 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <Link href={`/${locale}`} className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-brand-teal rounded-lg flex items-center justify-center">
+            <span className="text-white font-black">ﺗ</span>
           </div>
+          <span className="text-xl font-black text-brand-teal">ﺗﺤﺮر</span>
+        </Link>
+        <LanguageSwitcher />
+      </nav>
+
+      {/* Decorative architectural background */}
+      <div className="absolute top-0 left-0 w-full h-[600px] bg-white -z-10 rounded-b-[100px] shadow-sm" />
+      
+      <div className="layout-grid pt-44 pb-32">
+        <div className="text-center mb-24 max-w-3xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-teal/5 border border-brand-teal/10 text-brand-teal text-[10px] font-black uppercase tracking-widest mb-6"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            {t.notice}
+          </motion.div>
+          <h1 className="text-5xl md:text-7xl font-black text-brand-teal tracking-tight mb-8">{t.title}</h1>
+          <p className="text-xl text-slate-500 font-medium leading-relaxed">{t.subtitle}</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {packs.map((pack, i) => (
-            <div 
-              key={pack.id} 
-              className={`glass rounded-[3rem] p-10 flex flex-col transition-all hover:scale-[1.02] duration-500 animate-fade-up ${
-                pack.duration === 3 ? 'border-brand-mint/40 bg-white/10 ring-4 ring-brand-mint/20 relative scale-[1.05] z-10' : ''
-              }`}
-              style={{ animationDelay: `${i * 0.1}s` }}
+            <motion.div
+              key={pack.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="relative flex"
             >
-              {pack.duration === 3 && (
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-brand-mint text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest">
-                  {t.popular}
-                </div>
-              )}
-
-              <div className="mb-8">
-                <h3 className="text-2xl font-black text-white mb-2">{pack.name}</h3>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black text-white">{pack.price}</span>
-                  <span className="text-xl text-white/50 font-bold">DT</span>
-                </div>
-                <div className="mt-2 text-brand-mint font-black text-sm uppercase tracking-widest">
-                  {pack.duration} {pack.duration === 1 ? t.month : t.months}
-                </div>
-              </div>
-
-              <div className="flex-1 space-y-5 mb-10">
-                {t.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-brand-mint/20 flex items-center justify-center">
-                      <svg className="w-3 h-3 text-brand-mint" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" /></svg>
-                    </div>
-                    <span className="text-white/70 font-medium">{feature}</span>
+              <Card className={`relative flex flex-col w-full border-none shadow-xl shadow-slate-200/50 rounded-[2.5rem] overflow-hidden bg-white/90 backdrop-blur-sm transition-all ${
+                pack.duration === 3 ? 'ring-2 ring-brand-mint' : ''
+              }`}>
+                {pack.duration === 3 && (
+                  <div className="absolute top-0 right-0 left-0 bg-brand-mint text-white py-3 text-center text-[10px] font-black uppercase tracking-[0.2em]">
+                    {t.popular}
                   </div>
-                ))}
-              </div>
+                )}
 
-              <button
-                onClick={() => handleSubscribe(pack.id)}
-                disabled={isSubmitting !== null}
-                className={`w-full py-5 rounded-2xl text-lg font-black transition-all ${
-                  pack.duration === 3 
-                    ? 'bg-brand-mint text-white shadow-xl shadow-brand-mint/20 hover:bg-brand-mint/90' 
-                    : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-                } disabled:opacity-50 active:scale-95`}
-              >
-                {isSubmitting === pack.id ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    ...
-                  </span>
-                ) : t.select}
-              </button>
-            </div>
+                <CardHeader className={`px-10 pb-8 ${pack.duration === 3 ? 'pt-14' : 'pt-12'}`}>
+                  <CardTitle className="text-2xl mb-4">{pack.name}</CardTitle>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-6xl font-black text-brand-teal tracking-tighter">{pack.price}</span>
+                    <span className="text-lg font-bold text-slate-400">DT</span>
+                  </div>
+                  <CardDescription className="text-brand-mint font-black text-xs uppercase tracking-widest mt-2">
+                    {pack.duration} {pack.duration === 1 ? t.month : t.months} Access
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="px-10 flex-1 flex flex-col">
+                  <div className="space-y-5 mb-12 border-t border-slate-50 pt-10">
+                    {t.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-4">
+                        <div className="mt-1 h-5 w-5 rounded-full bg-brand-mint/10 flex items-center justify-center shrink-0">
+                          <Check className="h-3 w-3 text-brand-mint" strokeWidth={4} />
+                        </div>
+                        <span className="text-sm font-bold text-slate-600 leading-tight">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button
+                    onClick={() => handleSubscribe(pack.id)}
+                    disabled={isSubmitting !== null}
+                    size="lg"
+                    className={`w-full h-16 rounded-2xl text-base font-black shadow-lg group transition-all ${
+                      pack.duration === 3 
+                        ? 'bg-brand-mint hover:bg-brand-mint/90 shadow-brand-mint/20' 
+                        : 'bg-brand-teal hover:bg-brand-teal/90 shadow-brand-teal/10'
+                    }`}
+                  >
+                    {isSubmitting === pack.id ? <Loader2 className="h-5 w-5 animate-spin" /> : (
+                      <>
+                        {t.select}
+                        <ArrowRight className="ms-2 h-5 w-5 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+                      </>
+                    )}
+                  </Button>
+                </CardContent>
+                
+                <div className="px-10 py-6 bg-slate-50/50 flex items-center justify-center gap-2">
+                   <HeartPulse className="h-4 w-4 text-brand-mint" />
+                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Medical Protocol Guaranteed</span>
+                </div>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

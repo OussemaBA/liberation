@@ -9,9 +9,10 @@ export class AppointmentsController {
 
   @Post()
   async create(@Request() req: any, @Body() body: any) {
-    // If patient is scheduling, we need their patientId
-    // For simplicity, we assume the frontend sends patientId or we look it up
-    return this.appointmentsService.create(body);
+    return this.appointmentsService.create({
+      ...body,
+      userId: req.user.userId,
+    });
   }
 
   @Get()

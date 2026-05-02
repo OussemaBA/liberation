@@ -1,152 +1,344 @@
-import Link from 'next/link';
+'use client';
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+import * as React from "react";
+import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { 
+  ArrowRight, 
+  CheckCircle2, 
+  Stethoscope, 
+  Users2, 
+  ShieldCheck, 
+  Sparkles,
+  ChevronRight,
+  Globe
+} from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/Card';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useParams } from 'next/navigation';
+
+export default function Home() {
+  const { locale } = useParams();
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 200], [1, 0]);
+  const y = useTransform(scrollY, [0, 200], [0, -50]);
 
   const translations = {
     en: {
-      title: "Reclaim Your Freedom",
-      subtitle: "The medical-grade protocol to quit smoking for good. Guided by experts, supported by science.",
-      cta: "Start Your Journey",
-      more: "Discover the protocol",
+      tag: "The Medical Gold Standard",
+      title: "Science-Backed Smoking Cessation",
+      highlight: "Reclaim Your Health",
+      subtitle: "Join thousands of successful quitters on the only platform combining clinical protocol with continuous psychological support.",
+      cta: "Start Your Protocol",
+      secondary: "View Clinical Results",
       stats: [
-        { label: "Successful Quitters", value: "2,500+" },
-        { label: "Medical Experts", value: "45" },
-        { label: "Success Rate", value: "88%" }
+        { label: "Successful Quitters", value: "2.5k+", icon: Users2 },
+        { label: "Medical Experts", value: "45", icon: Stethoscope },
+        { label: "Clinical Success Rate", value: "88%", icon: ShieldCheck }
       ],
       features: [
-        { title: "Personalized Care", desc: "A protocol tailored to your smoking history and health profile." },
-        { title: "Expert Support", desc: "Weekly sessions with certified doctors and psychologists." },
-        { title: "Digital Companion", desc: "Track your progress, savings, and health improvements 24/7." }
+        { 
+          title: "Personalized Care", 
+          desc: "Protocols tailored to your biological profile and smoking history.",
+          icon: Sparkles
+        },
+        { 
+          title: "Expert Guidance", 
+          desc: "Direct access to certified doctors and clinical psychologists.",
+          icon: ShieldCheck
+        },
+        { 
+          title: "Continuous Support", 
+          desc: "A digital companion that tracks health improvements in real-time.",
+          icon: CheckCircle2
+        }
       ]
     },
     fr: {
-      title: "Libérez-vous Enfin",
-      subtitle: "Le protocole médical pour arrêter de fumer définitivement. Guidé par des experts, soutenu par la science.",
-      cta: "Commencer le parcours",
-      more: "Découvrir le protocole",
+      tag: "Le Standard Médical",
+      title: "Arrêtez de Fumer par la Science",
+      highlight: "Reprenez votre Santé",
+      subtitle: "Rejoignez des milliers de personnes sur la seule plateforme combinant protocole clinique et soutien psychologique continu.",
+      cta: "Démarrer le Protocole",
+      secondary: "Voir les Résultats",
       stats: [
-        { label: "Réussites", value: "2,500+" },
-        { label: "Experts Médicaux", value: "45" },
-        { label: "Taux de Réussite", value: "88%" }
+        { label: "Sevrages Réussis", value: "2.5k+", icon: Users2 },
+        { label: "Experts Médicaux", value: "45", icon: Stethoscope },
+        { label: "Taux de Réussite", value: "88%", icon: ShieldCheck }
       ],
       features: [
-        { title: "Suivi Personnalisé", desc: "Un protocole adapté à votre historique et votre profil de santé." },
-        { title: "Soutien d'Experts", desc: "Séances hebdomadaires avec des médecins et psychologues." },
-        { title: "Compagnon Digital", desc: "Suivez vos progrès, vos économies et votre santé 24h/24." }
+        { 
+          title: "Suivi Personnalisé", 
+          desc: "Des protocoles adaptés à votre profil biologique et historique.",
+          icon: Sparkles
+        },
+        { 
+          title: "Guidage d'Experts", 
+          desc: "Accès direct à des médecins et psychologues cliniciens.",
+          icon: ShieldCheck
+        },
+        { 
+          title: "Soutien Continu", 
+          desc: "Un compagnon digital qui suit vos progrès en temps réel.",
+          icon: CheckCircle2
+        }
       ]
     },
     ar: {
-      title: "استعد حريتك الآن",
-      subtitle: "البروتوكول الطبي المعتمد للإقلاع عن التدخين نهائياً. بإشراف خبراء ودعم علمي متكامل.",
-      cta: "ابدأ رحلتك الآن",
-      more: "اكتشف البروتوكول",
+      tag: "المعيار الطبي الذهبي",
+      title: "الإقلاع عن التدخين بأسلوب علمي",
+      highlight: "استعد صحتك الآن",
+      subtitle: "انضم إلى الآلاف على المنصة الوحيدة التي تجمع بين البروتوكول السريري والدعم النفسي المستمر.",
+      cta: "ابدأ البروتوكول",
+      secondary: "نتائج الدراسات",
       stats: [
-        { label: "حالات نجاح", value: "+2,500" },
-        { label: "خبير طبي", value: "45" },
-        { label: "نسبة النجاح", value: "88%" }
+        { label: "حالات نجاح", value: "+2.5k", icon: Users2 },
+        { label: "خبير طبي", value: "45", icon: Stethoscope },
+        { label: "نسبة النجاح", value: "88%", icon: ShieldCheck }
       ],
       features: [
-        { title: "رعاية شخصية", desc: "بروتوكول مخصص حسب تاريخ تدخينك وملفك الصحي." },
-        { title: "دعم المختصين", desc: "جلسات أسبوعية مع أطباء وأخصائيين نفسيين معتمدين." },
-        { title: "رفيق رقمي", desc: "تابع تقدمك، مدخراتك وتحسن صحتك على مدار الساعة." }
+        { 
+          title: "رعاية مخصصة", 
+          desc: "بروتوكولات مصممة حسب ملفك البيولوجي وتاريخك مع التدخين.",
+          icon: Sparkles
+        },
+        { 
+          title: "إشراف الخبراء", 
+          desc: "تواصل مباشر مع أطباء وأخصائيين نفسيين معتمدين.",
+          icon: ShieldCheck
+        },
+        { 
+          title: "دعم مستمر", 
+          desc: "رفيق رقمي يتابع تحسن مؤشراتك الصحية على مدار الساعة.",
+          icon: CheckCircle2
+        }
       ]
-    },
+    }
   };
 
-  const content = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
+  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   return (
-    <main className="min-h-screen brand-gradient text-white overflow-hidden relative">
-      {/* Immersive Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] end-[-5%] w-[50%] h-[50%] bg-brand-mint/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] start-[-5%] w-[50%] h-[50%] bg-brand-gold/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
-
-      {/* Navigation Placeholder */}
-      <nav className="relative z-20 flex items-center justify-between px-8 py-8 max-w-7xl mx-auto">
-        <div className="text-3xl font-black tracking-tighter text-glow flex items-center gap-2">
-          <div className="w-10 h-10 bg-brand-mint rounded-xl rotate-12 flex items-center justify-center">
-            <span className="text-white -rotate-12">ﺗ</span>
+    <main className="min-h-screen bg-white">
+      {/* Dynamic Navigation */}
+      <nav className="fixed top-0 w-full z-[60] border-b border-slate-100 bg-white/80 backdrop-blur-md">
+        <div className="layout-grid h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <motion.div 
+              whileHover={{ rotate: 10 }}
+              className="w-10 h-10 bg-brand-teal rounded-xl flex items-center justify-center shadow-lg shadow-brand-teal/20"
+            >
+              <span className="text-white font-black text-xl">ﺗ</span>
+            </motion.div>
+            <span className="text-2xl font-black tracking-tight text-brand-teal">ﺗﺤﺮر</span>
           </div>
-          ﺗﺤﺮر
-        </div>
-        <div className="flex gap-4">
-          <Link href={`/${locale}/login`} className="px-6 py-2 rounded-xl font-bold hover:bg-white/10 transition-colors">
-            {locale === 'ar' ? 'دخول' : 'Connexion'}
-          </Link>
-          <Link href={`/${locale}/register`} className="px-6 py-2 rounded-xl bg-brand-mint font-bold shadow-lg shadow-brand-mint/20 hover:scale-105 transition-all">
-            {content.cta}
-          </Link>
+
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Protocol</Link>
+            <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Science</Link>
+            <Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Testimonials</Link>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <LanguageSwitcher />
+            </div>
+            <Link href={`/${locale}/login`}>
+              <Button variant="ghost" className="text-slate-600 font-bold">Sign In</Button>
+            </Link>
+            <Link href={`/${locale}/register`}>
+              <Button variant="brand" className="rounded-xl shadow-xl shadow-brand-teal/10">Get Started</Button>
+            </Link>
+          </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-32 flex flex-col items-center text-center">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-brand-mint/20 border border-brand-mint/30 text-brand-mint font-bold text-sm mb-8 animate-fade-up">
-          {locale === 'ar' ? 'المنصة الطبية رقم 1 في تونس' : 'Plateforme Médicale #1 en Tunisie'}
-        </div>
-        
-        <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
-          {content.title.split(' ').map((word, i) => (
-            <span key={i} className={i === 1 ? 'text-brand-mint text-glow' : ''}>
-              {word}{' '}
-            </span>
-          ))}
-        </h1>
+      <section className="relative pt-44 pb-32 overflow-hidden">
+        {/* Architectural Background */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50/50 -z-10 rounded-bl-[100px]" />
+        <div className="absolute top-40 left-10 w-72 h-72 bg-brand-mint/5 rounded-full blur-[100px] -z-10" />
 
-        <p className="max-w-2xl text-xl md:text-2xl text-white/70 leading-relaxed mb-12 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-          {content.subtitle}
-        </p>
+        <div className="layout-grid">
+          <div className="max-w-4xl">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-mint/10 border border-brand-mint/20 text-brand-mint text-xs font-black uppercase tracking-widest mb-8"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-brand-mint animate-pulse" />
+              {t.tag}
+            </motion.div>
 
-        <div className="flex flex-col sm:flex-row gap-6 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-          <Link
-            href={`/${locale}/register`}
-            className="rounded-2xl bg-brand-mint px-10 py-5 text-xl font-bold shadow-2xl shadow-brand-mint/30 hover:scale-105 active:scale-95 transition-all"
-          >
-            {content.cta}
-          </Link>
-          <button className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-10 py-5 text-xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-3 group">
-            {content.more}
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </button>
-        </div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-6xl md:text-8xl font-black text-brand-teal leading-[1.05] tracking-tight mb-8"
+            >
+              {t.title} <br />
+              <span className="text-brand-mint decoration-brand-gold/30 underline underline-offset-8 decoration-8">{t.highlight}</span>
+            </motion.h1>
 
-        {/* Stats */}
-        <div className="mt-24 grid grid-cols-1 sm:grid-cols-3 gap-12 w-full animate-fade-up" style={{ animationDelay: '0.4s' }}>
-          {content.stats.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <span className="text-5xl font-black text-brand-gold mb-2">{stat.value}</span>
-              <span className="text-white/50 font-bold uppercase tracking-widest text-sm">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12"
+            >
+              {t.subtitle}
+            </motion.p>
 
-      {/* Feature Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 py-32 border-t border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {content.features.map((feature, i) => (
-            <div key={i} className="glass rounded-[2rem] p-10 hover:bg-white/15 transition-all group">
-              <div className="w-16 h-16 rounded-2xl bg-brand-mint/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                <div className="w-8 h-8 text-brand-mint">
-                  {/* Icon placeholder based on index */}
-                  {i === 0 && <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
-                  {i === 1 && <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857C17.183 15.558 17 14.802 17 14V6a4 4 0 00-8 0v8c0 .802-.183 1.558-.356 2.143A3 3 0 003 18v2h5" /></svg>}
-                  {i === 2 && <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
-                </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-6"
+            >
+              <Button size="lg" className="bg-brand-mint hover:bg-brand-mint/90 shadow-2xl shadow-brand-mint/20 group">
+                {t.cta}
+                <ArrowRight className="ms-2 h-5 w-5 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+              </Button>
+              <Button size="lg" variant="outline" className="border-2 border-slate-200 text-slate-600 bg-white hover:bg-slate-50">
+                {t.secondary}
+              </Button>
+            </motion.div>
+
+            {/* Micro-Social Proof */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-16 flex items-center gap-4 border-t border-slate-100 pt-10"
+            >
+              <div className="flex -space-x-3 rtl:space-x-reverse">
+                {[1,2,3,4].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200" />
+                ))}
               </div>
-              <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-              <p className="text-white/60 leading-relaxed text-lg">{feature.desc}</p>
-            </div>
-          ))}
+              <p className="text-sm font-bold text-slate-400">
+                Trusted by <span className="text-brand-teal">2,500+ users</span> across North Africa
+              </p>
+            </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Stats Board */}
+      <section className="bg-brand-teal py-24 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(27,135,112,0.1),transparent_50%)]" />
+        <div className="layout-grid relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {t.stats.map((stat, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -5 }}
+                className="flex flex-col items-center text-center p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-brand-mint/20 flex items-center justify-center mb-6">
+                  <stat.icon className="h-6 w-6 text-brand-mint" />
+                </div>
+                <span className="text-5xl font-black text-white mb-2">{stat.value}</span>
+                <span className="text-brand-mint font-bold uppercase tracking-widest text-[10px]">{stat.label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Grid */}
+      <section className="py-32 bg-slate-50/50">
+        <div className="layout-grid">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <h2 className="text-4xl md:text-5xl font-black text-brand-teal mb-6">Built for Clinical Results</h2>
+            <p className="text-lg text-slate-500 font-medium leading-relaxed">
+              We've digitized the most effective clinical protocols into an intuitive experience.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {t.features.map((feature, i) => (
+              <Card key={i} className="group border-none shadow-none bg-white hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 p-2">
+                <CardContent className="p-8">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-8 group-hover:bg-brand-mint transition-colors duration-500">
+                    <feature.icon className="h-7 w-7 text-brand-teal group-hover:text-white transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-2xl font-black text-brand-teal mb-4">{feature.title}</h3>
+                  <p className="text-slate-500 font-medium leading-relaxed mb-6">{feature.desc}</p>
+                  <div className="flex items-center text-brand-mint font-bold text-sm">
+                    Learn more 
+                    <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24">
+        <div className="layout-grid">
+          <div className="bg-brand-mint rounded-[3rem] p-12 md:p-24 text-center text-white relative overflow-hidden shadow-2xl shadow-brand-mint/30">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px]" />
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">Ready to reclaim your freedom?</h2>
+              <p className="text-xl text-white/80 font-medium mb-12 max-w-2xl mx-auto">Start your personalized protocol today with our clinical team.</p>
+              <Link href={`/${locale}/register`}>
+                <Button size="lg" className="bg-white text-brand-mint hover:bg-slate-50 text-xl px-16 py-8 rounded-2xl font-black shadow-xl">
+                  Get Started Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 border-t border-slate-100 bg-white">
+        <div className="layout-grid grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-brand-teal rounded-lg flex items-center justify-center">
+                <span className="text-white font-black">ﺗ</span>
+              </div>
+              <span className="text-2xl font-black text-brand-teal">ﺗﺤﺮر</span>
+            </div>
+            <p className="text-slate-500 font-medium max-w-sm mb-8">
+              The premium medical platform for smoking cessation in the MENA region.
+            </p>
+            <div className="flex gap-4">
+              <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100" />
+              <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100" />
+              <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100" />
+            </div>
+          </div>
+          <div>
+            <h4 className="font-black text-brand-teal mb-6 uppercase tracking-widest text-[10px]">Platform</h4>
+            <ul className="space-y-4">
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Protocol</Link></li>
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Science</Link></li>
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Pricing</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-black text-brand-teal mb-6 uppercase tracking-widest text-[10px]">Company</h4>
+            <ul className="space-y-4">
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">About Us</Link></li>
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="text-sm font-bold text-slate-500 hover:text-brand-teal transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="layout-grid mt-20 pt-8 border-t border-slate-50 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">© 2026 Ta7aror. All rights clinical.</p>
+          <div className="flex gap-6">
+            <Link href="#" className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-teal">Terms</Link>
+            <Link href="#" className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-teal">Cookies</Link>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

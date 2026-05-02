@@ -2,10 +2,30 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export default function Calendar({ onSelectDate }: { onSelectDate: (date: Date) => void }) {
+export default function Calendar() {
   const { locale } = useParams();
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const translations = {
+    en: {
+      days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    },
+    fr: {
+      days: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+      months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+    },
+    ar: {
+      days: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+      months: ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+    },
+  };
+
+  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
@@ -13,84 +33,79 @@ export default function Calendar({ onSelectDate }: { onSelectDate: (date: Date) 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  const translations = {
-    en: {
-      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    },
-    fr: {
-      months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-      days: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-    },
-    ar: {
-      months: ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
-      days: ['أحد', 'إثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'],
-    },
-  };
+  const days = [];
+  const totalDays = daysInMonth(year, month);
+  const startDay = firstDayOfMonth(year, month);
 
-  const content = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
-  const monthNames = content.months;
-  const dayNames = content.days;
+  for (let i = 0; i < startDay; i++) days.push(null);
+  for (let i = 1; i <= totalDays; i++) days.push(i);
 
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
 
-  const totalDays = daysInMonth(year, month);
-  const startDay = firstDayOfMonth(year, month);
-
-  const days = [];
-  for (let i = 0; i < startDay; i++) {
-    days.push(<div key={`empty-${i}`} className="p-4 border-b border-e border-gray-50/50"></div>);
-  }
-  for (let d = 1; d <= totalDays; d++) {
-    const date = new Date(year, month, d);
-    const isToday = date.toDateString() === new Date().toDateString();
-    days.push(
-      <button
-        key={d}
-        onClick={() => onSelectDate(date)}
-        className={`p-4 border-b border-e border-gray-50/50 hover:bg-brand-mint/5 transition-all text-start flex flex-col gap-2 min-h-[120px] group relative overflow-hidden ${isToday ? 'bg-brand-mint/[0.03]' : ''}`}
-      >
-        <span className={`text-xl font-black transition-colors ${isToday ? 'text-brand-mint' : 'text-brand-teal/40 group-hover:text-brand-teal'}`}>{d}</span>
-        {isToday && (
-          <div className="absolute top-4 end-4 w-2 h-2 bg-brand-mint rounded-full animate-ping" />
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-brand-mint scale-x-0 group-hover:scale-x-100 transition-transform origin-left rtl:origin-right" />
-      </button>
-    );
-  }
-
   return (
-    <div className="bg-white rounded-[2.5rem] shadow-xl shadow-brand-teal/5 overflow-hidden border border-gray-100 flex flex-col">
-      <div className="bg-brand-teal p-8 flex items-center justify-between text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor" />
-          </svg>
+    <div className="w-full p-4">
+      <div className="flex items-center justify-between mb-8">
+        <h3 className="text-lg font-black text-brand-teal capitalize tracking-tight">
+          {t.months[month]} <span className="text-slate-300 font-bold">{year}</span>
+        </h3>
+        <div className="flex gap-1 bg-slate-50 p-1 rounded-xl border border-slate-100">
+          <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-slate-400 hover:text-brand-teal transition-all">
+            <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
+          </button>
+          <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-slate-400 hover:text-brand-teal transition-all">
+            <ChevronRight className="h-4 w-4 rtl:rotate-180" />
+          </button>
         </div>
-        
-        <button onClick={prevMonth} className="p-3 hover:bg-white/10 rounded-2xl transition-all relative z-10 border border-white/10 active:scale-90 rtl:rotate-180">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <div className="text-center relative z-10">
-          <h2 className="text-2xl font-black tracking-tight">{monthNames[month]}</h2>
-          <span className="text-brand-mint font-bold text-sm tracking-widest uppercase opacity-80">{year}</span>
-        </div>
-        <button onClick={nextMonth} className="p-3 hover:bg-white/10 rounded-2xl transition-all relative z-10 border border-white/10 active:scale-90 rtl:rotate-180">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
-        </button>
       </div>
 
-      <div className="grid grid-cols-7 bg-gray-50/50 border-b border-gray-100">
-        {dayNames.map(day => (
-          <div key={day} className="p-5 text-center text-[10px] font-black text-brand-teal/30 uppercase tracking-[0.2em]">
+      <div className="grid grid-cols-7 gap-1 text-center mb-4">
+        {t.days.map((day, i) => (
+          <div key={i} className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] py-2">
             {day}
           </div>
         ))}
       </div>
-      
-      <div className="grid grid-cols-7 flex-1">
-        {days}
+
+      <div className="grid grid-cols-7 gap-1 relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={month}
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            className="grid grid-cols-7 gap-1 col-span-7"
+          >
+            {days.map((day, i) => {
+              const isToday = day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear();
+              return (
+                <div
+                  key={i}
+                  className={cn(
+                    "aspect-square flex items-center justify-center text-xs font-bold rounded-xl transition-all relative group",
+                    day === null ? 'invisible' : 'cursor-pointer'
+                  )}
+                >
+                  {isToday && (
+                    <motion.div 
+                      layoutId="today-indicator"
+                      className="absolute inset-0 bg-brand-mint rounded-xl shadow-lg shadow-brand-mint/20" 
+                    />
+                  )}
+                  <span className={cn(
+                    "relative z-10",
+                    isToday ? 'text-white' : 'text-slate-600 group-hover:text-brand-mint'
+                  )}>
+                    {day}
+                  </span>
+                  {!isToday && day !== null && (
+                    <div className="absolute inset-0 bg-slate-50 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity" />
+                  )}
+                </div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

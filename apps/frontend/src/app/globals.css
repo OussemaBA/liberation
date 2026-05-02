@@ -1,77 +1,101 @@
 @import "tailwindcss";
 
+@plugin "../../node_modules/tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
 @theme {
-  --color-brand-teal: #0A2E36;
-  --color-brand-mint: #1B8770;
-  --color-brand-gold: #C89454;
-  
-  --font-inter: "Inter", sans-serif;
-  --font-cairo: "Cairo", sans-serif;
-  --font-tajawal: "Tajawal", sans-serif;
-}
+  /* Core Brand Palette - Derived from REQUIREMENTS.md */
+  --color-brand-teal: hsl(190 68% 13%);
+  --color-brand-mint: hsl(167 67% 32%);
+  --color-brand-gold: hsl(33 50% 56%);
 
-:root {
-  --background: #ffffff;
-  --foreground: #0A2E36;
-}
+  /* Shadcn/UI Standard Tokens (Medical Tech Theme) */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(190 68% 13%);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0A2E36;
-    --foreground: #ffffff;
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(190 68% 13%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(190 68% 13%);
+
+  --color-primary: var(--color-brand-mint);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(190 30% 96%);
+  --color-secondary-foreground: hsl(190 68% 13%);
+
+  --color-muted: hsl(190 15% 96%);
+  --color-muted-foreground: hsl(190 10% 45%);
+
+  --color-accent: var(--color-brand-gold);
+  --color-accent-foreground: hsl(0 0% 100%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(190 15% 92%);
+  --color-input: hsl(190 15% 92%);
+  --color-ring: var(--color-brand-mint);
+
+  --radius-xl: 1rem;
+  --radius-lg: 0.75rem;
+  --radius-md: calc(var(--radius-lg) - 2px);
+  --radius-sm: calc(var(--radius-lg) - 4px);
+
+  --font-sans: "Inter", "Cairo", sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-slide-up: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-brand-mint/10 selection:text-brand-mint;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  .text-balance {
+    text-wrap: balance;
   }
   
-  .glass-dark {
-    @apply bg-brand-teal/80 backdrop-blur-xl border border-white/10;
+  .glass-header {
+    @apply sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl transition-all;
   }
 
-  .brand-gradient {
-    @apply bg-gradient-to-br from-brand-teal via-[#0D3B45] to-brand-mint;
+  .premium-card {
+    @apply rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md hover:border-brand-mint/20;
   }
 
-  .text-glow {
-    text-shadow: 0 0 20px rgba(27, 135, 112, 0.4);
+  /* Strict Logical Properties for RTL Support */
+  .layout-grid {
+    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
   }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.6s ease-out forwards;
-}
-
-@layer utilities {
-  .rtl-flip {
-    @apply rtl:rotate-180;
-  }
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* RTL Support for specific components if needed, 
-   though Tailwind logical properties handle most of it */
-[dir="rtl"] {
-  font-family: var(--font-cairo);
-}
-
-[dir="ltr"] {
-  font-family: var(--font-inter);
 }
