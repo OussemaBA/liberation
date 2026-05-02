@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Plateforme d'accompagnement au sevrage tabagique",
 };
 
+import { AuthProvider } from "@/components/AuthProvider";
+
 export default async function RootLayout({
   children,
   params,
@@ -33,10 +35,13 @@ export default async function RootLayout({
       lang={locale}
       dir={isRtl ? 'rtl' : 'ltr'}
       className={`${inter.variable} ${cairo.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <LanguageSwitcher currentLocale={locale} />
-        {children}
+        <AuthProvider>
+          <LanguageSwitcher currentLocale={locale} />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

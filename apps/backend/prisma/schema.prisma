@@ -28,6 +28,18 @@ enum SubscriptionStatus {
   PENDING
 }
 
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum AppointmentType {
+  VISIO
+  IN_PERSON
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -65,6 +77,7 @@ model PatientProfile {
   assignedPsychologistId String?
 
   testResults TestResult[]
+  appointments Appointment[]
 
   @@map("patient_profiles")
 }
@@ -78,6 +91,8 @@ model ProfessionalProfile {
   specialization String?
   bio            String?
   
+  appointments   Appointment[]
+
   @@map("professional_profiles")
 }
 
@@ -128,4 +143,21 @@ model TestResult {
   createdAt DateTime @default(now())
 
   @@map("test_results")
+}
+
+model Appointment {
+  id             String            @id @default(uuid())
+  patientId      String
+  patient        PatientProfile    @relation(fields: [patientId], references: [id])
+  professionalId String
+  professional   ProfessionalProfile @relation(fields: [professionalId], references: [id])
+  dateTime       DateTime
+  duration       Int               @default(30) // in minutes
+  status         AppointmentStatus @default(PENDING)
+  type           AppointmentType   @default(VISIO)
+  notes          String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@map("appointments")
 }

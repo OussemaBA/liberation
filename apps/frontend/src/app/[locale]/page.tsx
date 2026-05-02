@@ -7,7 +7,7 @@ export default async function Home({
 }) {
   const { locale } = await params;
 
-  const content = {
+  const translations = {
     en: {
       title: "Break Free from Smoking",
       subtitle: "A structured protocol guided by medical experts.",
@@ -23,7 +23,9 @@ export default async function Home({
       subtitle: "بروتوكول منظم تحت إشراف خبراء طبيين.",
       cta: "ابدأ الآن",
     },
-  }[locale as 'en' | 'fr' | 'ar'] || content.fr;
+  };
+
+  const content = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-brand-teal p-6 text-center text-white">

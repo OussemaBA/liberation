@@ -6,21 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.AppointmentsModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const prisma_service_1 = require("./prisma/prisma.service");
-const auth_module_1 = require("./auth/auth.module");
-const appointments_module_1 = require("./appointments/appointments.module");
-let AppModule = class AppModule {
+const appointments_service_1 = require("./appointments.service");
+const appointments_controller_1 = require("./appointments.controller");
+const prisma_service_1 = require("../prisma/prisma.service");
+let AppointmentsModule = class AppointmentsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.AppointmentsModule = AppointmentsModule;
+exports.AppointmentsModule = AppointmentsModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, appointments_module_1.AppointmentsModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, prisma_service_1.PrismaService],
+        providers: [appointments_service_1.AppointmentsService, prisma_service_1.PrismaService],
+        controllers: [appointments_controller_1.AppointmentsController],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], AppointmentsModule);
+//# sourceMappingURL=appointments.module.js.map
