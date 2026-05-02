@@ -22,10 +22,6 @@ import { AuthProvider } from "@/features/auth/components/AuthProvider";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'fr' }, { locale: 'ar' }];
-}
-
 export default async function RootLayout({
   children,
   params,

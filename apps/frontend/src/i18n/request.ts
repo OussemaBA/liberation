@@ -1,25 +1,33 @@
 import { getRequestConfig } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-
-// Can be imported from a shared config
-const locales = ['en', 'fr', 'ar'];
+import { routing } from './routing';
 
 export default getRequestConfig(async ({ locale }) => {
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) notFound();
+  if (!routing.locales.includes(locale as any)) {
+    console.error(`[i18n] Invalid locale requested: ${locale}`);
+  }
+
+  console.log(`[i18n] Loading messages for locale: ${locale}`);
 
   let messages;
-  switch (locale) {
-    case 'en':
-      messages = (await import('../messages/en.json')).default;
-      break;
-    case 'ar':
-      messages = (await import('../messages/ar.json')).default;
-      break;
-    case 'fr':
-    default:
-      messages = (await import('../messages/fr.json')).default;
-      break;
+  try {
+    switch (locale) {
+      case 'en':
+        messages = (await import('../messages/en.json')).default;
+        break;
+      case 'ar':
+        messages = (await import('../messages/ar.json')).default;
+        break;
+      case 'fr':
+      default:
+        messages = (await import('../messages/fr.json')).default;
+        break;
+    }
+    console.log(`[i18n] Successfully loaded messages for: ${locale}`);
+  } catch (error) {
+    console.error(`[i18n] Failed to load messages for ${locale}:`, error);
+    // Fallback to English if loading fails
+    messages = (await import('../messages/en.json')).default;
   }
 
   return {
