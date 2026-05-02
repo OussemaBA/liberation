@@ -60,11 +60,11 @@ export default function MeetingPage() {
         <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push(`/${locale}/dashboard`)}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-white/10 rounded-full transition-colors rtl:rotate-180"
           >
-            ←
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <h1 className="text-xl font-bold">Meeting Room</h1>
+          <h1 className="text-xl font-bold">{locale === 'ar' ? 'غرفة الاجتماع' : locale === 'fr' ? "Salle de réunion" : 'Meeting Room'}</h1>
         </div>
         <div className="text-sm opacity-80">Room ID: {id}</div>
       </header>
