@@ -6,7 +6,6 @@ const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:3005';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
   allowedDevOrigins: ['*.ngrok-free.app', 'localhost:3000'],
   
   async rewrites() {
