@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: liberation_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: ${POSTGRES_DB:-ta7aror}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: liberation_backend
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@db:5432/${POSTGRES_DB:-ta7aror}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-super-secret-key-change-me-in-production}
+      LIVEKIT_URL: ${LIVEKIT_URL:-wss://liberation-5xb6iqb6.livekit.cloud}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-APIUGbq3Qbv77v6}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-upLIe2r0C02psSSzb8C4H44oXgfu5ejM3n7e4frMuiyH}
+      FRONTEND_URL: ${DOMAIN_NAME:-http://localhost}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3005:3005"
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: liberation_frontend
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      BACKEND_URL: http://backend:3005
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: liberation_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    depends_on:
+      - frontend
+      - backend
+
+  certbot:
+    image: certbot/certbot
+    container_name: liberation_certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  postgres_data:

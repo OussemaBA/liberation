@@ -11,13 +11,22 @@ import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { AuthService } from '@/lib/services/auth.service';
+import { UserRole } from '@/types';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { locale } = useParams();
   const { login } = useAuth();
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: UserRole;
+    professionalType: string;
+    specialization: string;
+  }>({
     firstName: '',
     lastName: '',
     email: '',
@@ -209,7 +218,7 @@ export default function RegisterPage() {
                   <select
                     className="flex h-12 w-full rounded-xl border border-slate-100 bg-slate-50/50 ps-11 pe-4 py-2 text-sm font-bold text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-mint/20 appearance-none cursor-pointer"
                     value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
                   >
                     <option value="PATIENT">{t.patient}</option>
                     <option value="PROFESSIONAL">{t.professional}</option>

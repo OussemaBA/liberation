@@ -204,8 +204,33 @@ consentements
 
 ## 6. Development Roadmap
 *I will prompt you to execute this project one phase at a time. Do not jump ahead.*
-*   **Phase 1:** Foundation (Monorepo setup, DB schema, Prisma, JWT Auth, i18n routing).
-*   **Phase 2:** Onboarding & Monetization (Packs, Payments, Solidarity donations).
-*   **Phase 3:** Core Medical Protocol (TCC scheduling, Dashboards, Clinical Journals).
-*   **Phase 4:** Community & Retention (Ambassadors, Reimbursement logic, Chatbot).
-*   **Phase 5:** Administration (Global performance dashboard, GDPR exports).
+*   **Phase 1: Foundation (COMPLETED)**
+    *   Monorepo setup, DB schema, Prisma integration.
+    *   JWT Auth with HTTP-only cookies and RBAC.
+    *   i18n routing foundation.
+*   **Phase 2: Onboarding & Monetization (IN PROGRESS)**
+    *   Patient registration and initial profiling.
+    *   Subscription packs implementation.
+    *   Payment gateway integration (Simulator implemented).
+*   **Phase 3: Core Medical Protocol (COMPLETED)**
+    *   Appointment scheduling and management.
+    *   Video consultation integration with LiveKit.
+    *   Mini-Dashboard with real-time stats and RTL calendar.
+*   **Phase 4: Enterprise Localization & Zero-Hardcoding (COMPLETED)**
+    *   Migration to `next-intl` with dictionary-based architecture (`messages/*.json`).
+    *   Strict RTL synchronization and logical property enforcement.
+    *   Premium LanguageSwitcher with path-preserving routing.
+    *   "Purge" of all hardcoded strings in Landing Page and Dashboard.
+*   **Phase 5: Community & Retention (NEXT)**
+    *   Ambassador program and success story gallery.
+    *   Reimbursement logic (12-month success tracking).
+    *   Solidarity banner integration ("حرر شخص اخر معاك").
+*   **Phase 6: Administration & Scaling**
+    *   Global performance dashboard for medical staff.
+    *   GDPR compliance tools and data exports.
+
+## 7. Technical Milestones (Architectural Log)
+- **May 2026:** Migrated to `next-intl` to resolve language leaks. Implemented static locale resolution in `request.ts` for Turbopack compatibility.
+- **May 2026:** Implemented "Independent Scroll" dashboard layout to fix sidebar height issues on PC.
+- **May 2026:** Integrated LiveKit for clinical-grade video consultations with backend token verification.
+

@@ -29,7 +29,7 @@ export default function VideoRoom({ appointmentId, onLeave, locale }: VideoRoomP
   const [serverUrl, setServerUrl] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  const t = {
+  const translations = {
     en: {
       loading: "Securing Clinical Connection...",
       secure: "End-to-End Encrypted",
@@ -48,7 +48,8 @@ export default function VideoRoom({ appointmentId, onLeave, locale }: VideoRoomP
       error: "فشل الاتصال. يرجى المحاولة مرة أخرى.",
       retry: "إعادة المحاولة"
     }
-  }[locale as 'en' | 'fr' | 'ar'] || t.fr;
+  };
+  const t = translations[locale as 'en' | 'fr' | 'ar'] || translations.fr;
 
   useEffect(() => {
     async function fetchToken() {
@@ -118,10 +119,10 @@ export default function VideoRoom({ appointmentId, onLeave, locale }: VideoRoomP
 function MyVideoConference() {
   const tracks = useTracks(
     [
-      { source: Track.Source.Camera, name: 'camera' },
-      { source: Track.Source.ScreenShare, name: 'screen_share' },
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
     ],
-    { onlyPlanned: false },
+    { onlySubscribed: false },
   );
 
   return (

@@ -5,10 +5,19 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
+
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',')
+    : process.env.FRONTEND_URL
+    ? [process.env.FRONTEND_URL, 'http://localhost:3000']
+    : true;
+
   app.enableCors({
-    origin: true, // Allow all origins in development
+    origin: allowedOrigins,
     credentials: true,
   });
-  await app.listen(process.env.PORT ?? 3001, '0.0.0.0');
+
+  const port = process.env.PORT ?? 3005;
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();

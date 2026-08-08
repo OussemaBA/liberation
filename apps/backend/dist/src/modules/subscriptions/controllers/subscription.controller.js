@@ -40,6 +40,7 @@ __decorate([
 ], SubscriptionController.prototype, "getPacks", null);
 __decorate([
     (0, common_1.Post)('subscribe'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -48,6 +49,7 @@ __decorate([
 ], SubscriptionController.prototype, "subscribe", null);
 __decorate([
     (0, common_1.Get)('current'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -55,7 +57,6 @@ __decorate([
 ], SubscriptionController.prototype, "getCurrent", null);
 exports.SubscriptionController = SubscriptionController = __decorate([
     (0, common_1.Controller)('subscriptions'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [subscription_service_1.SubscriptionService])
 ], SubscriptionController);
 //# sourceMappingURL=subscription.controller.js.map

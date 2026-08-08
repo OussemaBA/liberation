@@ -3,7 +3,6 @@ import { SubscriptionService } from '../services/subscription.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Controller('subscriptions')
-@UseGuards(JwtAuthGuard)
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
@@ -13,11 +12,13 @@ export class SubscriptionController {
   }
 
   @Post('subscribe')
+  @UseGuards(JwtAuthGuard)
   async subscribe(@Request() req: any, @Body() body: { packId: string }) {
     return this.subscriptionService.createSubscription(req.user.userId, body.packId);
   }
 
   @Get('current')
+  @UseGuards(JwtAuthGuard)
   async getCurrent(@Request() req: any) {
     return this.subscriptionService.getCurrentSubscription(req.user.userId);
   }

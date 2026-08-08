@@ -78,10 +78,10 @@ export default function Home() {
             <div className="hidden sm:block">
               <LanguageSwitcher />
             </div>
-            <Link href={`/${locale}/login`}>
+            <Link href="/login">
               <Button variant="ghost" className="text-slate-600 font-bold">{tc('login')}</Button>
             </Link>
-            <Link href={`/${locale}/register`}>
+            <Link href="/register">
               <Button variant="brand" className="rounded-xl shadow-xl shadow-brand-teal/10">{t('cta.button')}</Button>
             </Link>
           </div>
@@ -222,7 +222,7 @@ export default function Home() {
             <div className="relative z-10">
               <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">{t('cta.title')}</h2>
               <p className="text-xl text-white/80 font-medium mb-12 max-w-2xl mx-auto">{t('cta.subtitle')}</p>
-              <Link href={`/${locale}/register`}>
+              <Link href="/register">
                 <Button size="lg" className="bg-white text-brand-mint hover:bg-slate-50 text-xl px-16 py-8 rounded-2xl font-black shadow-xl">
                   {t('cta.button')}
                 </Button>

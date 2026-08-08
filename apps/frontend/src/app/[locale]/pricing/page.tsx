@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { SubscriptionService } from '@/lib/services/subscription.service';
+import { cn } from '@/lib/utils';
 
 export default function PricingPage() {
   const { locale } = useParams();
