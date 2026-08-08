@@ -30,4 +30,3 @@ databases:
   - name: liberation-db
     plan: free
     databaseName: ta7aror
-    user: postgres
