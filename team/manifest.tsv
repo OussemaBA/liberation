@@ -1,7 +1,7 @@
 # type	file	name	id	skills (agents only; comma-separated)
-agent	agents/product-delivery-lead.md	Product Delivery Lead	FILL-IN-AFTER-CREATE	ta7arrar-team-communication
-agent	agents/software-engineer.md	Software Engineer	FILL-IN-AFTER-CREATE	ta7arrar-review-checklist,ta7arrar-team-communication
-agent	agents/reviewer.md	Reviewer	FILL-IN-AFTER-CREATE	ta7arrar-review-checklist,ta7arrar-team-communication
-agent	agents/ux-designer.md	UX Designer	FILL-IN-AFTER-CREATE	ta7arrar-team-communication
-skill	skills/ta7arrar-team-communication/SKILL.md	ta7arrar-team-communication	FILL-IN-AFTER-CREATE
-skill	skills/ta7arrar-review-checklist/SKILL.md	ta7arrar-review-checklist	FILL-IN-AFTER-CREATE
+agent	agents/product-delivery-lead.md	Ta7arrar Product Delivery Lead	ed89e1ca-3bd9-411c-aba5-1a3b7112cc9b	ta7arrar-team-communication
+agent	agents/software-engineer.md	Ta7arrar Software Engineer	316c02f7-c155-4b4e-950a-8eb0d46aee11	ta7arrar-review-checklist,ta7arrar-team-communication
+agent	agents/reviewer.md	Ta7arrar Reviewer	efcab647-b5f5-4a99-acb4-e6ddfd083fa6	ta7arrar-review-checklist,ta7arrar-team-communication
+agent	agents/ux-designer.md	Ta7arrar UX Designer	1fc52f21-26c2-43b8-901e-5108f591fae5	ta7arrar-team-communication
+skill	skills/ta7arrar-team-communication/SKILL.md	ta7arrar-team-communication	ad6ec492-617f-4d5e-a325-701b01ede5ba
+skill	skills/ta7arrar-review-checklist/SKILL.md	ta7arrar-review-checklist	0536b716-37b0-4687-b9d2-e5a9bd8044a5
