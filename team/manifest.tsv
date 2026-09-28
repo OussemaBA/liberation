@@ -1,0 +1,7 @@
+# type	file	name	id	skills (agents only; comma-separated)
+agent	agents/product-delivery-lead.md	Product Delivery Lead	FILL-IN-AFTER-CREATE	ta7arrar-team-communication
+agent	agents/software-engineer.md	Software Engineer	FILL-IN-AFTER-CREATE	ta7arrar-review-checklist,ta7arrar-team-communication
+agent	agents/reviewer.md	Reviewer	FILL-IN-AFTER-CREATE	ta7arrar-review-checklist,ta7arrar-team-communication
+agent	agents/ux-designer.md	UX Designer	FILL-IN-AFTER-CREATE	ta7arrar-team-communication
+skill	skills/ta7arrar-team-communication/SKILL.md	ta7arrar-team-communication	FILL-IN-AFTER-CREATE
+skill	skills/ta7arrar-review-checklist/SKILL.md	ta7arrar-review-checklist	FILL-IN-AFTER-CREATE
